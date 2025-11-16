@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Main Menu screen layout.
+    Users start the game or view secondary screens.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- App Title -->
+    <TextView
+        android:text="BATTLESHIP"
+        android:textSize="32sp"
+        android:layout_marginBottom="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Start Game Button -->
+    <Button
+        android:id="@+id/btnStartGame"
+        android:text="Start Game"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- View Stats -->
+    <Button
+        android:id="@+id/btnStats"
+        android:text="View Stats"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!-- Instructions -->
+    <Button
+        android:id="@+id/btnInstructions"
+        android:text="Instructions"
+        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

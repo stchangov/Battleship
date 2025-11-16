@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Back Button -->
+        <Button
+            android:id="@+id/btnBackStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvStatsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Game Statistics"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Stats Text -->
+        <TextView
+            android:id="@+id/tvStatsContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wins: 0\nLosses: 0\nTotal Hits: 0\nTotal Misses: 0\nAccuracy: 0%"
+            android:textSize="18sp"
+            android:lineSpacingExtra="6dp" />
+
+    </LinearLayout>
+
+</ScrollView>

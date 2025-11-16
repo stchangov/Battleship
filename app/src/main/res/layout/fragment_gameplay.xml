@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Gameplay attack screen.
+    GridLayout will later be where players tap to attack.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Attack Phase Title -->
+    <TextView
+        android:text="Attack Phase"
+        android:textSize="24sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <!-- Grid where attacks will be selected -->
+    <GridLayout
+        android:id="@+id/gridGameplay"
+        android:rowCount="10"
+        android:columnCount="10"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- After selecting a coordinate, pass the phone -->
+    <Button
+        android:id="@+id/btnPassAfterAttack"
+        android:text="Pass Device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

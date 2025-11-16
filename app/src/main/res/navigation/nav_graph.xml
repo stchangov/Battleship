@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Navigation graph defining all screens (Fragments) in the Battleship app.
+    This controls which screens the user can navigate between.
+-->
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/mainMenuFragment">
+
+    <!-- Main Menu Screen -->
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.mobileapp.battleship.MainMenuFragment"
+        android:label="Main Menu">
+
+        <!-- Action to go to Ship Placement -->
+        <action
+            android:id="@+id/action_mainMenu_to_shipPlacement"
+            app:destination="@id/shipPlacementFragment" />
+
+        <!-- Action to go to Stats -->
+        <action
+            android:id="@+id/action_mainMenu_to_stats"
+            app:destination="@id/statsFragment" />
+
+        <!-- Action to go to Instructions -->
+        <action
+            android:id="@+id/action_mainMenu_to_instructions"
+            app:destination="@id/instructionsFragment" />
+    </fragment>
+
+    <!-- Ship Placement Screen -->
+    <fragment
+        android:id="@+id/shipPlacementFragment"
+        android:name="com.mobileapp.battleship.ShipPlacementFragment"
+        android:label="Ship Placement">
+
+        <!-- Once done placing ships, go to gameplay -->
+        <action
+            android:id="@+id/action_shipPlacement_to_gameplay"
+            app:destination="@id/gameplayFragment" />
+    </fragment>
+
+    <!-- Gameplay Screen -->
+    <fragment
+        android:id="@+id/gameplayFragment"
+        android:name="com.mobileapp.battleship.GameplayFragment"
+        android:label="Gameplay" />
+
+    <!-- Stats Screen -->
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.mobileapp.battleship.StatsFragment"
+        android:label="Stats" />
+
+    <!-- Instructions Screen -->
+    <fragment
+        android:id="@+id/instructionsFragment"
+        android:name="com.mobileapp.battleship.InstructionsFragment"
+        android:label="Instructions" />
+
+</navigation>

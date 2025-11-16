@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Ship placement UI.
+    GridLayout stands in for the game board.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Header text -->
+    <TextView
+        android:text="Place Your Ships"
+        android:textSize="24sp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Placeholder for the 10x10 grid -->
+    <GridLayout
+        android:id="@+id/gridShipPlacement"
+        android:rowCount="10"
+        android:columnCount="10"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- Button to hand device to opponent -->
+    <Button
+        android:id="@+id/btnPassDevice"
+        android:text="Pass Device"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
