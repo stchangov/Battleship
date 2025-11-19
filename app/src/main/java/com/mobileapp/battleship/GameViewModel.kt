@@ -3,10 +3,12 @@ package com.mobileapp.battleship
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
-    private lateinit var player1Board: Array<Array<CellState>>
-    private lateinit var player2Board: Array<Array<CellState>>
-    private var currentPlayer: currentPlayers = currentPlayers.player1 // live data
-    private var currentShipPlaced: ships = ships.destroyer
+    // Initialize a 10x10 grid of empty cells for both players
+    private var player1Board = Array(10) { Array(10) { CellState.EMPTY} }
+    private var player2Board = Array(10) { Array(10) { CellState.EMPTY} }
+
+    private var currentPlayer: Player = Player.PLAYER1 // live data
+    private var currentShipPlaced: Ship = Ship.DESTROYER
 
     // keep track of ships left to place
     private var battleshipPlaced = false

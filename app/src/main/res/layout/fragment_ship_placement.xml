@@ -3,36 +3,67 @@
     Ship placement UI.
     GridLayout stands in for the game board.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- Header text -->
-    <TextView
-        android:text="Place Your Ships"
-        android:textSize="24sp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
     <!-- Placeholder for the 10x10 grid -->
-    <GridLayout
-        android:id="@+id/gridShipPlacement"
-        android:rowCount="10"
-        android:columnCount="10"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
 
     <!-- Button to hand device to opponent -->
-    <Button
-        android:id="@+id/btnPassDevice"
-        android:text="Pass Device"
-        android:layout_marginTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/txt_placeYourShips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="@string/place_your_ships"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_currentPlayerPlacing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="64dp"
+        android:text="@string/current_player_placing"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <GridLayout
+        android:id="@+id/grid_gameBoard"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="92dp"
+        android:layout_weight="1"
+        android:columnCount="10"
+        android:rowCount="10"
+        app:layout_constraintTop_toBottomOf="@+id/txt_currentPlayerPlacing"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_PassDevice"
+        android:layout_width="314dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="20dp"
+        android:text="Pass Device"
+        app:cornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridShipPlacement"
+        app:layout_constraintVertical_bias="0.99" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
