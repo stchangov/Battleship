@@ -9,6 +9,8 @@ import android.widget.GridLayout
 import androidx.fragment.app.Fragment
 import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.button.MaterialButton
+
 
 /**
  * Ship placement screen.
@@ -18,7 +20,8 @@ class ShipPlacementFragment : Fragment() {
     private var _binding: FragmentShipPlacementBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var tileButtons: Array<Array<Button>>
+    private lateinit var tileButtons: Array<Array<Button?>>
+    private val emptyTileColor: Int = R.color.empty_tile
 
 
     override fun onCreateView(
@@ -31,15 +34,6 @@ class ShipPlacementFragment : Fragment() {
 
         val gameBoard = binding.gridGameBoard
         setupBoard(gameBoard)
-
-
-
-
-
-
-
-
-
 
 
 
@@ -57,7 +51,43 @@ class ShipPlacementFragment : Fragment() {
         _binding = null
     }
 
-    private fun setupBoard(grid: GridLayout) {
+    private fun setupBoard(gameBoard: GridLayout) {
+        val size = 10
+        // Initialize the tile buttons
+        tileButtons = Array(10) { arrayOfNulls<Button>(10) }
+
+        for (row in 0 until size) {
+            for (col in 0 until size) {
+                // Create the tile button and apply its initial appearance and behavior
+                val btn = Button(requireContext()).apply {
+                    setBackgroundColor(emptyTileColor)
+
+                    // layoutParams use px, so convert dp sizes to px
+                    val tileSize = (37 * resources.displayMetrics.density).toInt()
+                    val margin = (2 * resources.displayMetrics.density).toInt()
+
+                    // set this tile's size, grid position, and spacing within the GridLayout
+                    layoutParams = GridLayout.LayoutParams().apply {
+                        width = tileSize
+                        height = tileSize
+                        // assign this tile to its specific row and column in the GridLayout
+                        rowSpec = GridLayout.spec(row)
+                        columnSpec = GridLayout.spec(col)
+                        setMargins(margin, margin, margin, margin)
+                    }
+                }
+
+                // store this tile so we can update it later
+                tileButtons[row][col] = btn
+
+                // add the tile to the GridLayout so it becomes visible
+                gameBoard.addView(btn)
+            }
+
+        }
+
+
+
 
     }
 }
