@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="empty_tile">#E0E0E0</color>
     <color name="cell_select">#636363</color>
+    <color name="ship_color_carrier">#E53935</color>
 </resources>

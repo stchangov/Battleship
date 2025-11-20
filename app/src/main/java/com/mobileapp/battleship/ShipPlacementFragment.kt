@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 import androidx.navigation.fragment.findNavController
@@ -55,18 +56,18 @@ class ShipPlacementFragment : Fragment() {
 
     private fun setupBoard(gameBoard: GridLayout) {
         val size = 10
-        // Initialize the tile buttons
+        // initialize the tiles
         tileButtons = Array(10) { arrayOfNulls<ImageView>(10) }
 
         for (row in 0 until size) {
             for (col in 0 until size) {
-                // Create the tile button and apply its initial appearance and behavior
+                // Create the tile and apply its initial appearance and behavior
                 val tile = ImageView(requireContext()).apply {
                     setImageResource(R.drawable.circle)
                     scaleType = ImageView.ScaleType.CENTER_INSIDE
 
-                    val tileSize = (37 * resources.displayMetrics.density).toInt()
-                    val margin = (7 * resources.displayMetrics.density).toInt()
+                    val tileSize = (37.3 * resources.displayMetrics.density).toInt()
+                    val margin = (2 * resources.displayMetrics.density).toInt()
 
                     layoutParams = GridLayout.LayoutParams().apply {
                         width = tileSize
@@ -77,10 +78,20 @@ class ShipPlacementFragment : Fragment() {
                     }
                 }
 
-                // store this tile so we can update it later
+                // Store this tile so we can update it later
                 tileButtons[row][col] = tile
 
-                // add the tile to the GridLayout so it becomes visible
+                // for testing with the ship tile
+                if (row == 0 && col == 0) {
+                    tile.setImageDrawable(null) // remove circle
+                    tile.setBackgroundResource(R.drawable.ship_tile) // ship tile
+                }
+                if (row == 0 && col == 1) {
+                    tile.setImageDrawable(null) // remove circle
+                    tile.setBackgroundResource(R.drawable.ship_tile) // ship tile
+                }
+
+                // Add the tile to the GridLayout so it becomes visible
                 gameBoard.addView(tile)
             }
 
