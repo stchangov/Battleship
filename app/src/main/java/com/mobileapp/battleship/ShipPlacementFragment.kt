@@ -1,11 +1,14 @@
 package com.mobileapp.battleship
 
+import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 import androidx.navigation.fragment.findNavController
@@ -14,13 +17,12 @@ import com.google.android.material.button.MaterialButton
 
 /**
  * Ship placement screen.
- * Eventually players will drag/drop ships, but for now this is UI-only.
  */
 class ShipPlacementFragment : Fragment() {
     private var _binding: FragmentShipPlacementBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var tileButtons: Array<Array<Button?>>
+    private lateinit var tileButtons: Array<Array<ImageView?>>
     private val emptyTileColor: Int = R.color.empty_tile
 
 
@@ -54,23 +56,21 @@ class ShipPlacementFragment : Fragment() {
     private fun setupBoard(gameBoard: GridLayout) {
         val size = 10
         // Initialize the tile buttons
-        tileButtons = Array(10) { arrayOfNulls<Button>(10) }
+        tileButtons = Array(10) { arrayOfNulls<ImageView>(10) }
 
         for (row in 0 until size) {
             for (col in 0 until size) {
                 // Create the tile button and apply its initial appearance and behavior
-                val btn = Button(requireContext()).apply {
-                    setBackgroundColor(emptyTileColor)
+                val tile = ImageView(requireContext()).apply {
+                    setImageResource(R.drawable.circle)
+                    scaleType = ImageView.ScaleType.CENTER_INSIDE
 
-                    // layoutParams use px, so convert dp sizes to px
                     val tileSize = (37 * resources.displayMetrics.density).toInt()
-                    val margin = (2 * resources.displayMetrics.density).toInt()
+                    val margin = (7 * resources.displayMetrics.density).toInt()
 
-                    // set this tile's size, grid position, and spacing within the GridLayout
                     layoutParams = GridLayout.LayoutParams().apply {
                         width = tileSize
                         height = tileSize
-                        // assign this tile to its specific row and column in the GridLayout
                         rowSpec = GridLayout.spec(row)
                         columnSpec = GridLayout.spec(col)
                         setMargins(margin, margin, margin, margin)
@@ -78,10 +78,10 @@ class ShipPlacementFragment : Fragment() {
                 }
 
                 // store this tile so we can update it later
-                tileButtons[row][col] = btn
+                tileButtons[row][col] = tile
 
                 // add the tile to the GridLayout so it becomes visible
-                gameBoard.addView(btn)
+                gameBoard.addView(tile)
             }
 
         }
