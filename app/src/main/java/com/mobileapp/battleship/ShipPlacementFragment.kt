@@ -41,6 +41,7 @@ class ShipPlacementFragment : Fragment() {
 
 
 
+
         // When player is done placing their ships: Navigate to gameplay phase
         binding.btnPassDevice.setOnClickListener {
             findNavController().navigate(R.id.action_shipPlacement_to_gameplay)

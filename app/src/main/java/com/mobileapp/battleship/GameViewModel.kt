@@ -17,6 +17,10 @@ class GameViewModel: ViewModel() {
     private var destroyerPlaced = false
 
 
+
+
+
+
     /*
     add result screen takes arg string
      */

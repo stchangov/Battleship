@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mobileapp.battleship.databinding.FragmentGameplayBinding
+import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 
 /**
  * Gameplay attack phase screen.
@@ -13,15 +14,22 @@ import com.mobileapp.battleship.databinding.FragmentGameplayBinding
  */
 class GameplayFragment : Fragment() {
 
-    private lateinit var binding: FragmentGameplayBinding
+    private var _binding: FragmentGameplayBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        _binding = FragmentGameplayBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        binding = FragmentGameplayBinding.inflate(inflater, container, false)
-        return binding.root
+
+
+
+
+
+        return view
     }
 }
