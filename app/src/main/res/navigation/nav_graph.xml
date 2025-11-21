@@ -5,6 +5,7 @@
 -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/mainMenuFragment">
 
     <!-- Main Menu Screen -->
@@ -33,7 +34,8 @@
     <fragment
         android:id="@+id/shipPlacementFragment"
         android:name="com.mobileapp.battleship.ShipPlacementFragment"
-        android:label="Ship Placement">
+        android:label="Ship Placement"
+        tools:layout="@layout/fragment_ship_placement">
 
         <!-- Once done placing ships, go to gameplay -->
         <action

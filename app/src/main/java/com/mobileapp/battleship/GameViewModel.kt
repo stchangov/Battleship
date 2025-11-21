@@ -1,14 +1,28 @@
 package com.mobileapp.battleship
 
+import android.graphics.Insets.add
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlin.apply
 
 class GameViewModel: ViewModel() {
     // Initialize a 10x10 grid of empty cells for both players
     private var player1Board = Array(10) { Array(10) { CellState.EMPTY} }
     private var player2Board = Array(10) { Array(10) { CellState.EMPTY} }
 
-    private var currentPlayer: Player = Player.PLAYER1 // live data
-    private var currentShipPlaced: Ship = Ship.DESTROYER
+    private val _currentPlayer = MutableLiveData<Player>(Player.PLAYER1)
+    val currentPlayer: LiveData<Player> = _currentPlayer
+
+    fun switchToPlayer1() {
+        _currentPlayer.value = Player.PLAYER1
+    }
+
+    fun switchToPlayer2() {
+        _currentPlayer.value = Player.PLAYER2
+    }
+
+
 
     // keep track of ships left to place
     private var battleshipPlaced = false
@@ -16,6 +30,26 @@ class GameViewModel: ViewModel() {
     private var submarinePlaced = false
     private var destroyerPlaced = false
 
+    // Keep track if we are placing the first tile for the ship
+    var isSelectingStart = true
+
+    // Keep track of ships Player 1 needs to place
+    val p1ShipsToPlace = ArrayDeque<Ship>().apply {
+        add(Ship.CARRIER)
+        add(Ship.BATTLESHIP)
+        add(Ship.CRUISER)
+        add(Ship.SUBMARINE)
+        add(Ship.DESTROYER)
+    }
+
+    // Keep track of ships Player 2 needs to place
+    val p2ShipsToPlace = ArrayDeque<Ship>().apply {
+        add(Ship.CARRIER)
+        add(Ship.BATTLESHIP)
+        add(Ship.CRUISER)
+        add(Ship.SUBMARINE)
+        add(Ship.DESTROYER)
+    }
 
     fun isHit(x: Int, y: Int): Boolean {
         // TODO
@@ -48,14 +82,6 @@ class GameViewModel: ViewModel() {
     /*
     add result screen takes arg string
      */
-
-
-
-
-    /*
-    live data - tiles
-     */
-
 
     /*
     Make stats for player1 and player2 shared preference

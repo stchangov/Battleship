@@ -11,6 +11,7 @@ import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
@@ -26,6 +27,8 @@ class ShipPlacementFragment : Fragment() {
     private lateinit var tileButtons: Array<Array<ImageView?>>
     private val emptyTileColor: Int = R.color.empty_tile
 
+    private val gameViewModel: GameViewModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,17 +38,14 @@ class ShipPlacementFragment : Fragment() {
         _binding = FragmentShipPlacementBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val gameBoard = binding.gridGameBoard
-        setupBoard(gameBoard)
-
-
-
-
-
-        // When player is done placing their ships: Navigate to gameplay phase
         binding.btnPassDevice.setOnClickListener {
-            findNavController().navigate(R.id.action_shipPlacement_to_gameplay)
+            handlePassDevice()
         }
+
+        // Set up Player 1's board
+        val player1Board = binding.gridGameBoard
+        setupBoard(player1Board)
+
 
         return view
     }
@@ -77,29 +77,35 @@ class ShipPlacementFragment : Fragment() {
                         columnSpec = GridLayout.spec(col)
                         setMargins(margin, margin, margin, margin)
                     }
+
+                    // Attach listener
+                    setOnClickListener {
+                        onTileClicked(row, col)
+                    }
                 }
 
-                // Store this tile so we can update it later
+                // Store this tile
                 tileButtons[row][col] = tile
-
-                // for testing with the ship tile
-                if (row == 0 && col == 0) {
-                    tile.setImageDrawable(null) // remove circle
-                    tile.setBackgroundResource(R.drawable.ship_tile) // ship tile
-                }
-                if (row == 0 && col == 1) {
-                    tile.setImageDrawable(null) // remove circle
-                    tile.setBackgroundResource(R.drawable.ship_tile) // ship tile
-                }
 
                 // Add the tile to the GridLayout so it becomes visible
                 gameBoard.addView(tile)
             }
+        }
+    }
 
+    private fun onTileClicked(row: Int, col: Int) {
+        // If user is selecting the start of the ship
+    }
+
+    private fun handlePassDevice() {
+        if (gameViewModel.currentPlayer.value == Player.PLAYER1 &&
+            gameViewModel.p1ShipsToPlace.isEmpty()) {
+            gameViewModel.switchToPlayer2()
+        } else if (gameViewModel.currentPlayer.value == Player.PLAYER2 &&
+            gameViewModel.p2ShipsToPlace.isEmpty()) {
+            gameViewModel.switchToPlayer1()  // temp holder will implement soon
         }
 
-
-
-
     }
+
 }
