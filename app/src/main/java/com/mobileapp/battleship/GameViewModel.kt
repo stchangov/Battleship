@@ -17,10 +17,34 @@ class GameViewModel: ViewModel() {
     private var destroyerPlaced = false
 
 
+    fun isHit(x: Int, y: Int): Boolean {
+        // TODO
+        return false
+    }
 
+    fun tryPlaceShip(x: Int, y: Int) {
+        // TODO
+    }
 
+    fun isWin(): Boolean {
+        // TODO
+        return false
+    }
 
+    fun whoWon(): Player {
+        // TODO
+        return Player.PLAYER1
+    }
 
+    fun isGridHidden(): Boolean {
+        // TODO
+        return false
+    }
+
+    fun whichPlayerTurn(): Player {
+        // TODO
+        return Player.PLAYER1
+    }
     /*
     add result screen takes arg string
      */
