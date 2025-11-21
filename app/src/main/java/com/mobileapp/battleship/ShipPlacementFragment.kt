@@ -103,9 +103,8 @@ class ShipPlacementFragment : Fragment() {
             gameViewModel.switchToPlayer2()
         } else if (gameViewModel.currentPlayer.value == Player.PLAYER2 &&
             gameViewModel.p2ShipsToPlace.isEmpty()) {
-            gameViewModel.switchToPlayer1()  // temp holder will implement soon
+            findNavController().navigate(R.id.action_shipPlacement_to_gameplay)
         }
-
     }
 
 }

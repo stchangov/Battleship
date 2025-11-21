@@ -12,7 +12,8 @@
     <fragment
         android:id="@+id/mainMenuFragment"
         android:name="com.mobileapp.battleship.MainMenuFragment"
-        android:label="Main Menu">
+        android:label="Main Menu"
+        tools:layout="@layout/fragment_main_menu">
 
         <!-- Action to go to Ship Placement -->
         <action
@@ -47,18 +48,21 @@
     <fragment
         android:id="@+id/gameplayFragment"
         android:name="com.mobileapp.battleship.GameplayFragment"
-        android:label="Gameplay" />
+        android:label="Gameplay"
+        tools:layout="@layout/fragment_gameplay" />
 
     <!-- Stats Screen -->
     <fragment
         android:id="@+id/statsFragment"
         android:name="com.mobileapp.battleship.StatsFragment"
-        android:label="Stats" />
+        android:label="Stats"
+        tools:layout="@layout/fragment_stats" />
 
     <!-- Instructions Screen -->
     <fragment
         android:id="@+id/instructionsFragment"
         android:name="com.mobileapp.battleship.InstructionsFragment"
-        android:label="Instructions" />
+        android:label="Instructions"
+        tools:layout="@layout/fragment_instructions" />
 
 </navigation>
