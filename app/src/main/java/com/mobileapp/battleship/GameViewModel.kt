@@ -22,8 +22,6 @@ class GameViewModel: ViewModel() {
         _currentPlayer.value = Player.PLAYER2
     }
 
-
-
     // keep track of ships left to place
     private var battleshipPlaced = false
     private var cruiserPlaced = false
@@ -31,7 +29,15 @@ class GameViewModel: ViewModel() {
     private var destroyerPlaced = false
 
     // Keep track if we are placing the first tile for the ship
+    // -1 means "not selected yet" -> -1 is an invalid coordinate
     var isSelectingStart = true
+    var startRow = -1
+    var startCol = -1
+
+    fun placeShip(cells: List<Pair<Int, Int>>) {
+
+    }
+
 
     // Keep track of ships Player 1 needs to place
     val p1ShipsToPlace = ArrayDeque<Ship>().apply {
@@ -51,13 +57,18 @@ class GameViewModel: ViewModel() {
         add(Ship.DESTROYER)
     }
 
+    fun currentShip(): Ship {
+        return if (currentPlayer.value == Player.PLAYER1)
+            p1ShipsToPlace.first()
+        else
+            p2ShipsToPlace.first()
+    }
+
+
+
     fun isHit(x: Int, y: Int): Boolean {
         // TODO
         return false
-    }
-
-    fun tryPlaceShip(x: Int, y: Int) {
-        // TODO
     }
 
     fun isWin(): Boolean {

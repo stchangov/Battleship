@@ -94,7 +94,88 @@ class ShipPlacementFragment : Fragment() {
     }
 
     private fun onTileClicked(row: Int, col: Int) {
-        // If user is selecting the start of the ship
+        if (gameViewModel.isSelectingStart) {  // Handle selecting the start tile
+            // No need to validate the start tile. It is always valid
+            gameViewModel.startRow = row
+            gameViewModel.startCol = col
+            gameViewModel.isSelectingStart = false
+
+            highlightStartTile(row, col)
+
+            disableInvalidEndTiles(row, col)
+
+            return
+        }
+
+        // Handle selecting the end tile
+
+    }
+
+    private fun highlightStartTile(row: Int, col: Int) {
+        val tile = tileButtons[row][col]
+        val shipColorRes = gameViewModel.currentShip().colorRes
+
+        // Turn the resource ID into a real color int
+        val shipColor = ContextCompat.getColor(requireContext(), shipColorRes)
+
+        tile?.setImageResource(R.drawable.ship_tile)
+        tile?.setColorFilter(shipColor)
+    }
+
+    private fun disableInvalidEndTiles(startRow: Int, startCol: Int) {
+        val size = gameViewModel.currentShip().size
+        val remainingLength = size - 1
+
+        // Store the valid end points - these we will keep enabled
+        val validEnds = mutableListOf<Pair<Int, Int>>()
+
+
+        // Right
+        if (startCol + remainingLength <= 9) {
+            // `to` creates a Pair(row, col)
+            validEnds.add(startRow to (startCol + remainingLength))
+        }
+
+        // Left
+        if (startCol - remainingLength >= 0) {
+            validEnds.add(startRow to (startCol - remainingLength))
+        }
+
+        // Up
+        if (startRow - remainingLength >= 0) {
+            validEnds.add((startRow - remainingLength) to startCol)
+
+        }
+
+        // Bottom
+        if (startRow + remainingLength <= 9) {
+            validEnds.add((startRow + remainingLength) to startCol)
+        }
+
+        // Disable all tiles
+        for (row in 0 until 10) {
+            for (col in 0 until 10) {
+                // Disable the tile and make it faded
+                tileButtons[row][col]?.apply {
+                    isEnabled = false
+                    alpha = 0.3f
+                }
+            }
+        }
+
+        // Enable start tile again
+        tileButtons[startRow][startCol]?.apply {
+            isEnabled = true
+            alpha = 1.0f
+        }
+
+        // Now enable all valid end tiles
+        validEnds.forEach { (row, col) ->
+            tileButtons[row][col]?.apply {
+                isEnabled = true
+                alpha = 1.0f
+            }
+        }
     }
 
     private fun handlePassDevice() {

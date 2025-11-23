@@ -4,5 +4,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="empty_tile">#E0E0E0</color>
     <color name="cell_select">#636363</color>
+
     <color name="ship_color_carrier">#E53935</color>
+    <color name="ship_color_battleship">#E53935</color>
+    <color name="ship_color_cruiser">#E53935</color>
+    <color name="ship_color_submarine">#E53935</color>
+    <color name="ship_color_destroyer">#E53935</color>
 </resources>
