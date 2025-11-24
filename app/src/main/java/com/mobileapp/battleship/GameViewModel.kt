@@ -34,10 +34,46 @@ class GameViewModel: ViewModel() {
     var startRow = -1
     var startCol = -1
 
+    fun getStartTile(): Pair<Int, Int> {
+        return Pair(startRow, startCol)
+    }
+
+    fun buildShipCells(endRow: Int, endCol: Int): List<Pair<Int, Int>> {
+        val shipCells = mutableListOf<Pair<Int, Int>>()
+
+        // Build the ship horizontally
+        if (startRow == endRow) {
+            if (endCol < startCol) {
+                // Build ship toward the left
+                for (col in endCol..startCol) {
+                    shipCells.add(Pair(startRow, col))
+                }
+            } else {
+                // Build ship toward the right
+                for (col in startCol..endCol) {
+                    shipCells.add(Pair(startRow, col))
+                }
+            }
+        } else if (startCol == endCol) {  // Build the ship vertically
+            if (endRow < startRow) {
+                // Build ship toward the top
+                for (row in endRow..startRow) {
+                    shipCells.add(Pair(row, startCol))
+                }
+            } else {
+                // Build the ship toward the bottom
+                for (row in startRow..endRow) {
+                    shipCells.add(Pair(row, startCol))
+                }
+            }
+        }
+
+        return shipCells
+    }
+
     fun placeShip(cells: List<Pair<Int, Int>>) {
 
     }
-
 
     // Keep track of ships Player 1 needs to place
     val p1ShipsToPlace = ArrayDeque<Ship>().apply {

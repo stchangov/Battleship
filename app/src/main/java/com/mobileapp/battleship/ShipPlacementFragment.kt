@@ -94,7 +94,8 @@ class ShipPlacementFragment : Fragment() {
     }
 
     private fun onTileClicked(row: Int, col: Int) {
-        if (gameViewModel.isSelectingStart) {  // Handle selecting the start tile
+        // Handle selecting the start tile
+        if (gameViewModel.isSelectingStart) {
             // No need to validate the start tile. It is always valid
             gameViewModel.startRow = row
             gameViewModel.startCol = col
@@ -107,7 +108,19 @@ class ShipPlacementFragment : Fragment() {
             return
         }
 
-        // Handle selecting the end tile
+        // End tile logic
+        val cells = gameViewModel.buildShipCells(row, col)
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -128,7 +141,6 @@ class ShipPlacementFragment : Fragment() {
 
         // Store the valid end points - these we will keep enabled
         val validEnds = mutableListOf<Pair<Int, Int>>()
-
 
         // Right
         if (startCol + remainingLength <= 9) {
