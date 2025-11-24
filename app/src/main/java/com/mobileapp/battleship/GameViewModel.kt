@@ -1,6 +1,7 @@
 package com.mobileapp.battleship
 
 import android.graphics.Insets.add
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,7 +13,8 @@ class GameViewModel: ViewModel() {
     private var player2Board = Array(10) { Array(10) { CellState.EMPTY} }
 
     private val _currentPlayer = MutableLiveData<Player>(Player.PLAYER1)
-    val currentPlayer: LiveData<Player> = _currentPlayer
+    val currentPlayer: LiveData<Player>
+        get() =  _currentPlayer
 
     fun switchToPlayer1() {
         _currentPlayer.value = Player.PLAYER1
@@ -103,12 +105,34 @@ class GameViewModel: ViewModel() {
 
 
     fun isHit(x: Int, y: Int): Boolean {
-        // TODO
+        when (currentPlayer.value) {
+            Player.PLAYER1 -> {
+                if (player1Board[x][y] == CellState.SHIP)
+                    return true
+            }
+            Player.PLAYER2 -> {
+                if (player2Board[x][y] == CellState.SHIP)
+                    return true
+            }
+            null -> Log.d("ERROR", "currentPlayer was null")
+        }
         return false
     }
 
+    fun registerHit(x: Int, y:Int) {
+        when (currentPlayer.value) {
+            Player.PLAYER1 -> {
+                player1Board[x][y] = CellState.HIT
+            }
+            Player.PLAYER2 -> {
+                player1Board[x][y] = CellState.HIT
+            }
+            null -> Log.d("ERROR", "currentPlayer was null")
+        }
+    }
+
     fun isWin(): Boolean {
-        // TODO
+
         return false
     }
 
@@ -117,15 +141,12 @@ class GameViewModel: ViewModel() {
         return Player.PLAYER1
     }
 
+    // might remove and place into UI logic instead
     fun isGridHidden(): Boolean {
         // TODO
         return false
     }
 
-    fun whichPlayerTurn(): Player {
-        // TODO
-        return Player.PLAYER1
-    }
     /*
     add result screen takes arg string
      */
