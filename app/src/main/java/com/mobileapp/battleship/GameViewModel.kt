@@ -103,7 +103,7 @@ class GameViewModel: ViewModel() {
     }
 
 
-
+    // Checks if an attack will hit a ship
     fun isHit(x: Int, y: Int): Boolean {
         when (currentPlayer.value) {
             Player.PLAYER1 -> {
@@ -119,6 +119,7 @@ class GameViewModel: ViewModel() {
         return false
     }
 
+    // Turns cell state into HIT, call this function after checking with isHit
     fun registerHit(x: Int, y:Int) {
         when (currentPlayer.value) {
             Player.PLAYER1 -> {
@@ -131,13 +132,27 @@ class GameViewModel: ViewModel() {
         }
     }
 
+    // Checks if either grid has any ships left
+    // inefficiently searches entire grid, may rewrite
     fun isWin(): Boolean {
-
+        for (x in 0 until 10) {
+            for (y in 0 until 10) {
+                if (player1Board[x][y] == CellState.SHIP || player2Board[x][y] == CellState.SHIP)
+                    return true
+            }
+        }
         return false
     }
 
+    // Determines who won the game, call this function after isWin
+    // inefficiently checks player 1 if they have any ships left, may rewrite
     fun whoWon(): Player {
-        // TODO
+        for (x in 0 until 10) {
+            for (y in 0 until 10) {
+                if (player1Board[x][y] == CellState.SHIP)
+                    return Player.PLAYER2
+            }
+        }
         return Player.PLAYER1
     }
 
