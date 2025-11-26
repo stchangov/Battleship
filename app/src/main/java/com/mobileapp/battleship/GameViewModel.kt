@@ -74,7 +74,15 @@ class GameViewModel: ViewModel() {
     }
 
     fun placeShip(cells: List<Pair<Int, Int>>) {
-
+        for (cell in cells) {
+            // Destructure the pair
+            val (row, col) = cell
+            if (currentPlayer.value == Player.PLAYER1) {
+                player1Board[row][col] = CellState.SHIP
+            } else {
+                player2Board[row][col] = CellState.SHIP
+            }
+        }
     }
 
     // Keep track of ships Player 1 needs to place

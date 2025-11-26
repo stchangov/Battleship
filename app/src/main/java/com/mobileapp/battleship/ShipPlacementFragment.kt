@@ -109,17 +109,11 @@ class ShipPlacementFragment : Fragment() {
         }
 
         // End tile logic
-        val cells = gameViewModel.buildShipCells(row, col)
+        val shipCells = gameViewModel.buildShipCells(row, col)
+        gameViewModel.placeShip(shipCells)
 
-
-
-
-
-
-
-
-
-
+        // Show the full ship
+        highlightFullShip(shipCells)
 
 
     }
@@ -133,6 +127,16 @@ class ShipPlacementFragment : Fragment() {
 
         tile?.setImageResource(R.drawable.ship_tile)
         tile?.setColorFilter(shipColor)
+    }
+
+    private fun highlightFullShip(shipCells: List<Pair<Int, Int>>) {
+        val shipColorRes = gameViewModel.currentShip().colorRes
+        val shipColor = ContextCompat.getColor(requireContext(), shipColorRes)
+
+        for (cell in shipCells) {
+            val (row, col) = cell
+            tileButtons[row][col]?.setColorFilter(shipColor)
+        }
     }
 
     private fun disableInvalidEndTiles(startRow: Int, startCol: Int) {
