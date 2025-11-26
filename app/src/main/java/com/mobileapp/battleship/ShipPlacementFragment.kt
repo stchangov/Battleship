@@ -93,6 +93,11 @@ class ShipPlacementFragment : Fragment() {
         }
     }
 
+    private fun resetBoardUI() {
+        if (gameViewModel.)
+
+    }
+
     private fun onTileClicked(row: Int, col: Int) {
         // Handle selecting the start tile
         if (gameViewModel.isSelectingStart) {
@@ -115,6 +120,10 @@ class ShipPlacementFragment : Fragment() {
         // Show the full ship
         highlightFullShip(shipCells)
 
+        gameViewModel.isSelectingStart = true
+        resetBoardUI()
+
+
 
     }
 
@@ -135,7 +144,11 @@ class ShipPlacementFragment : Fragment() {
 
         for (cell in shipCells) {
             val (row, col) = cell
-            tileButtons[row][col]?.setColorFilter(shipColor)
+            tileButtons[row][col]?.apply {
+                setImageResource(R.drawable.ship_tile)
+                setColorFilter(shipColor)
+                alpha = 1f
+            }
         }
     }
 

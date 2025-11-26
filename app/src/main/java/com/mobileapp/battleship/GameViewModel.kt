@@ -40,6 +40,13 @@ class GameViewModel: ViewModel() {
         return Pair(startRow, startCol)
     }
 
+    fun isShipTile(row: Int, col: Int): Boolean {
+        return if (currentPlayer.value == Player.PLAYER1)
+            player1Board[row][col] == CellState.SHIP
+        else
+            player2Board[row][col] == CellState.SHIP
+    }
+
     fun buildShipCells(endRow: Int, endCol: Int): List<Pair<Int, Int>> {
         val shipCells = mutableListOf<Pair<Int, Int>>()
 
