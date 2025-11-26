@@ -94,9 +94,23 @@ class ShipPlacementFragment : Fragment() {
     }
 
     private fun resetBoardUI() {
-        if (gameViewModel.)
-
+        for (row in 0 until 10) {
+            for (col in 0 until 10) {
+                val tile = tileButtons[row][col]
+                if (gameViewModel.isShipTile(row, col)) {
+                    tile?.isEnabled = false
+                } else {
+                    tile?.apply {
+                        setImageResource(R.drawable.circle)
+                        setColorFilter(emptyTileColor)
+                        isEnabled = true
+                        alpha = 1.0f
+                    }
+                }
+            }
+        }
     }
+
 
     private fun onTileClicked(row: Int, col: Int) {
         // Handle selecting the start tile
