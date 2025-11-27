@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,7 +25,6 @@ class ShipPlacementFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var tileButtons: Array<Array<ImageView?>>
-    private val emptyTileColor: Int = R.color.empty_tile
 
     private val gameViewModel: GameViewModel by activityViewModels()
 
@@ -39,14 +37,19 @@ class ShipPlacementFragment : Fragment() {
         _binding = FragmentShipPlacementBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        gameViewModel.currentPlayer.observe(viewLifecycleOwner) { player ->
+            val playerNum = if (player == Player.PLAYER1) 1 else 2
+            binding.txtCurrentPlayerPlacing.text =
+                getString(R.string.current_player_placing, playerNum)
+        }
+
         binding.btnPassDevice.setOnClickListener {
             handlePassDevice()
         }
 
-        // Set up Player 1's board
-        val player1Board = binding.gridGameBoard
-        setupBoard(player1Board)
-
+        // Set up board
+        val gameBoard = binding.gridGameBoard
+        setupBoard(gameBoard)
 
         return view
     }
@@ -104,7 +107,7 @@ class ShipPlacementFragment : Fragment() {
                 } else {
                     tile?.apply {
                         setImageResource(R.drawable.circle)
-                        setColorFilter(emptyTileColor)
+                        setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile))
                         isEnabled = true
                         alpha = 1.0f
                     }
@@ -119,7 +122,9 @@ class ShipPlacementFragment : Fragment() {
             gameViewModel.p1ShipsToPlace.isEmpty()
         ) {
             binding.btnPassDevice.visibility = View.VISIBLE
-            binding.txtCurrentPlayerPlacing.text = "Player 1 done! Pass the device."
+            binding.txtCurrentPlayerPlacing.text =
+                getString(R.string.player_done, 1, getString(R.string.pass_device))
+
             disableBoard()
             return
         }
@@ -129,11 +134,12 @@ class ShipPlacementFragment : Fragment() {
             gameViewModel.p2ShipsToPlace.isEmpty()
         ) {
             binding.btnPassDevice.visibility = View.VISIBLE
-            binding.txtCurrentPlayerPlacing.text = "Player 2 done! Start the battle!"
+            binding.txtCurrentPlayerPlacing.text =
+                getString(R.string.player_done, 2, getString(R.string.start_battle))
+
             disableBoard()
         }
     }
-
 
     private fun disableBoard() {
         for (row in 0 until 10) {
@@ -177,7 +183,7 @@ class ShipPlacementFragment : Fragment() {
         gameViewModel.placeShip(shipCells)
 
         // Show the full ship
-        highlightFullShip(shipCells, gameViewModel.currentShip().colorRes)
+        highlightFullShip(shipCells)
 
         gameViewModel.popShip()
         gameViewModel.isSelectingStart = true
@@ -196,7 +202,7 @@ class ShipPlacementFragment : Fragment() {
         tile?.setColorFilter(shipColor)
     }
 
-    private fun highlightFullShip(shipCells: List<Pair<Int, Int>>, colorRes: Int) {
+    private fun highlightFullShip(shipCells: List<Pair<Int, Int>>) {
         val shipColorRes = gameViewModel.currentShip().colorRes
         val shipColor = ContextCompat.getColor(requireContext(), shipColorRes)
 
@@ -209,7 +215,6 @@ class ShipPlacementFragment : Fragment() {
             }
         }
     }
-
 
     private fun disableInvalidEndTiles(startRow: Int, startCol: Int) {
         val size = gameViewModel.currentShip().size
@@ -283,7 +288,6 @@ class ShipPlacementFragment : Fragment() {
         }
     }
 
-
     private fun handlePassDevice() {
         val p1Done = gameViewModel.currentPlayer.value == Player.PLAYER1 &&
                 gameViewModel.p1ShipsToPlace.isEmpty()
@@ -293,6 +297,12 @@ class ShipPlacementFragment : Fragment() {
 
         if (p1Done) {
             gameViewModel.switchToPlayer2()
+            gameViewModel.resetStartSelection()
+
+            binding.btnPassDevice.visibility = View.GONE
+
+            resetBoardUI()
+            return
 
         } else if (p2Done) {
             findNavController().navigate(R.id.action_shipPlacement_to_gameplay)

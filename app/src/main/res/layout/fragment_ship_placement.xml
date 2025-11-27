@@ -58,16 +58,19 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_PassDevice"
-        android:layout_width="314dp"
-        android:layout_height="63dp"
-        android:layout_marginBottom="20dp"
+        android:layout_width="320dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#4B4E6D"
+        android:letterSpacing="0.05"
         android:text="Pass Device"
-        app:cornerRadius="25dp"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridShipPlacement"
-        app:layout_constraintVertical_bias="0.99" />
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

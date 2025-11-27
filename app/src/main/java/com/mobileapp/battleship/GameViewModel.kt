@@ -40,11 +40,10 @@ class GameViewModel: ViewModel() {
         return Pair(startRow, startCol)
     }
 
-    fun isShipTile(row: Int, col: Int): Boolean {
-        return if (currentPlayer.value == Player.PLAYER1)
-            player1Board[row][col] == CellState.SHIP
-        else
-            player2Board[row][col] == CellState.SHIP
+    fun resetStartSelection() {
+        isSelectingStart = true
+        startRow = -1
+        startCol = -1
     }
 
     fun buildShipCells(endRow: Int, endCol: Int): List<Pair<Int, Int>> {
@@ -78,6 +77,13 @@ class GameViewModel: ViewModel() {
         }
 
         return shipCells
+    }
+
+    fun isShipTile(row: Int, col: Int): Boolean {
+        return if (currentPlayer.value == Player.PLAYER1)
+            player1Board[row][col] == CellState.SHIP
+        else
+            player2Board[row][col] == CellState.SHIP
     }
 
     fun shipCellsOverlap(shipCells: List<Pair<Int, Int>>): Boolean {
