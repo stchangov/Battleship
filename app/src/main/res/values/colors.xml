@@ -2,12 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="empty_tile">#E0E0E0</color>
+    <color name="empty_tile">#B0BEC5</color>
     <color name="cell_select">#636363</color>
 
-    <color name="ship_color_carrier">#E53935</color>
-    <color name="ship_color_battleship">#E53935</color>
-    <color name="ship_color_cruiser">#E53935</color>
-    <color name="ship_color_submarine">#E53935</color>
-    <color name="ship_color_destroyer">#E53935</color>
+    <!-- Ship Colors -->
+    <color name="ship_color_carrier">#9A4949</color>
+    <color name="ship_color_battleship">#455A64</color>
+    <color name="ship_color_cruiser">#4A5D4F</color>
+    <color name="ship_color_submarine">#AF8F4D</color>
+    <color name="ship_color_destroyer">#6A5A72</color>
+
+    <!-- Game State Colors -->
+    <color name="hit_color">#FFD600</color>
+    <color name="miss_color">#FFFFFF</color>
 </resources>

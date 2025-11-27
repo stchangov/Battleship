@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -99,6 +100,7 @@ class ShipPlacementFragment : Fragment() {
                 val tile = tileButtons[row][col]
                 if (gameViewModel.isShipTile(row, col)) {
                     tile?.isEnabled = false
+                    tile?.alpha = 1.0f
                 } else {
                     tile?.apply {
                         setImageResource(R.drawable.circle)
@@ -111,6 +113,37 @@ class ShipPlacementFragment : Fragment() {
         }
     }
 
+    private fun checkIfPlayerDonePlacing() {
+        // Player 1 done placing
+        if (gameViewModel.currentPlayer.value == Player.PLAYER1 &&
+            gameViewModel.p1ShipsToPlace.isEmpty()
+        ) {
+            binding.btnPassDevice.visibility = View.VISIBLE
+            binding.txtCurrentPlayerPlacing.text = "Player 1 done! Pass the device."
+            disableBoard()
+            return
+        }
+
+        // Player 2 done placing
+        if (gameViewModel.currentPlayer.value == Player.PLAYER2 &&
+            gameViewModel.p2ShipsToPlace.isEmpty()
+        ) {
+            binding.btnPassDevice.visibility = View.VISIBLE
+            binding.txtCurrentPlayerPlacing.text = "Player 2 done! Start the battle!"
+            disableBoard()
+        }
+    }
+
+
+    private fun disableBoard() {
+        for (row in 0 until 10) {
+            for (col in 0 until 10) {
+                tileButtons[row][col]?.apply {
+                    isEnabled = false
+                }
+            }
+        }
+    }
 
     private fun onTileClicked(row: Int, col: Int) {
         // Handle selecting the start tile
@@ -127,18 +160,29 @@ class ShipPlacementFragment : Fragment() {
             return
         }
 
-        // End tile logic
+        // END TILE LOGIC
+
+        // Prevent selecting the same tile as the end tile
+        if (row == gameViewModel.startRow && col == gameViewModel.startCol) {
+            return
+        }
+
         val shipCells = gameViewModel.buildShipCells(row, col)
+
+        // Check if the ship cells overlap
+        if (gameViewModel.shipCellsOverlap(shipCells)) {
+            return
+        }
+
         gameViewModel.placeShip(shipCells)
 
         // Show the full ship
-        highlightFullShip(shipCells)
+        highlightFullShip(shipCells, gameViewModel.currentShip().colorRes)
 
+        gameViewModel.popShip()
         gameViewModel.isSelectingStart = true
         resetBoardUI()
-
-
-
+        checkIfPlayerDonePlacing()
     }
 
     private fun highlightStartTile(row: Int, col: Int) {
@@ -152,7 +196,7 @@ class ShipPlacementFragment : Fragment() {
         tile?.setColorFilter(shipColor)
     }
 
-    private fun highlightFullShip(shipCells: List<Pair<Int, Int>>) {
+    private fun highlightFullShip(shipCells: List<Pair<Int, Int>>, colorRes: Int) {
         val shipColorRes = gameViewModel.currentShip().colorRes
         val shipColor = ContextCompat.getColor(requireContext(), shipColorRes)
 
@@ -166,39 +210,56 @@ class ShipPlacementFragment : Fragment() {
         }
     }
 
+
     private fun disableInvalidEndTiles(startRow: Int, startCol: Int) {
         val size = gameViewModel.currentShip().size
         val remainingLength = size - 1
 
-        // Store the valid end points - these we will keep enabled
         val validEnds = mutableListOf<Pair<Int, Int>>()
 
         // Right
         if (startCol + remainingLength <= 9) {
-            // `to` creates a Pair(row, col)
-            validEnds.add(startRow to (startCol + remainingLength))
+            val endRow = startRow
+            val endCol = startCol + remainingLength
+            val cells = gameViewModel.buildShipCells(endRow, endCol)
+            if (!gameViewModel.shipCellsOverlap(cells)) {
+                validEnds.add(endRow to endCol)
+            }
         }
 
         // Left
         if (startCol - remainingLength >= 0) {
-            validEnds.add(startRow to (startCol - remainingLength))
+            val endRow = startRow
+            val endCol = startCol - remainingLength
+            val cells = gameViewModel.buildShipCells(endRow, endCol)
+            if (!gameViewModel.shipCellsOverlap(cells)) {
+                validEnds.add(endRow to endCol)
+            }
         }
 
         // Up
         if (startRow - remainingLength >= 0) {
-            validEnds.add((startRow - remainingLength) to startCol)
-
+            val endRow = startRow - remainingLength
+            val endCol = startCol
+            val cells = gameViewModel.buildShipCells(endRow, endCol)
+            if (!gameViewModel.shipCellsOverlap(cells)) {
+                validEnds.add(endRow to endCol)
+            }
         }
 
-        // Bottom
+        // Down
         if (startRow + remainingLength <= 9) {
-            validEnds.add((startRow + remainingLength) to startCol)
+            val endRow = startRow + remainingLength
+            val endCol = startCol
+            val cells = gameViewModel.buildShipCells(endRow, endCol)
+            if (!gameViewModel.shipCellsOverlap(cells)) {
+                validEnds.add(endRow to endCol)
+            }
         }
 
-        // Disable all tiles
+        // Disable all tiles first
         for (row in 0 until 10) {
             for (col in 0 until 10) {
-                // Disable the tile and make it faded
                 tileButtons[row][col]?.apply {
                     isEnabled = false
                     alpha = 0.3f
@@ -206,29 +267,37 @@ class ShipPlacementFragment : Fragment() {
             }
         }
 
-        // Enable start tile again
-        tileButtons[startRow][startCol]?.apply {
-            isEnabled = true
-            alpha = 1.0f
-        }
-
-        // Now enable all valid end tiles
-        validEnds.forEach { (row, col) ->
+        // Enable only valid ends
+        for (end in validEnds) {
+            val (row, col) = end
             tileButtons[row][col]?.apply {
                 isEnabled = true
-                alpha = 1.0f
+                alpha = 1f
             }
+        }
+
+        // Keep the start tile enabled for visibility
+        tileButtons[startRow][startCol]?.apply {
+            isEnabled = false
+            alpha = 1f
         }
     }
 
+
     private fun handlePassDevice() {
-        if (gameViewModel.currentPlayer.value == Player.PLAYER1 &&
-            gameViewModel.p1ShipsToPlace.isEmpty()) {
+        val p1Done = gameViewModel.currentPlayer.value == Player.PLAYER1 &&
+                gameViewModel.p1ShipsToPlace.isEmpty()
+
+        val p2Done = gameViewModel.currentPlayer.value == Player.PLAYER2 &&
+                gameViewModel.p2ShipsToPlace.isEmpty()
+
+        if (p1Done) {
             gameViewModel.switchToPlayer2()
-        } else if (gameViewModel.currentPlayer.value == Player.PLAYER2 &&
-            gameViewModel.p2ShipsToPlace.isEmpty()) {
+
+        } else if (p2Done) {
             findNavController().navigate(R.id.action_shipPlacement_to_gameplay)
         }
     }
+
 
 }

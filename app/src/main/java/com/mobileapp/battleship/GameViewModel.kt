@@ -80,6 +80,16 @@ class GameViewModel: ViewModel() {
         return shipCells
     }
 
+    fun shipCellsOverlap(shipCells: List<Pair<Int, Int>>): Boolean {
+        for (cell in shipCells) {
+            val (row, col) = cell
+            if (isShipTile(row, col)) {
+                return true
+            }
+        }
+        return false
+    }
+
     fun placeShip(cells: List<Pair<Int, Int>>) {
         for (cell in cells) {
             // Destructure the pair
@@ -115,6 +125,14 @@ class GameViewModel: ViewModel() {
             p1ShipsToPlace.first()
         else
             p2ShipsToPlace.first()
+    }
+
+    fun popShip() {
+        Log.d("DEBUG_POP", "Popping: " + currentShip())
+        if (currentPlayer.value == Player.PLAYER1)
+            p1ShipsToPlace.removeFirst()
+        else
+            p2ShipsToPlace.removeFirst()
     }
 
 
