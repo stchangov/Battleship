@@ -2,17 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="empty_tile">#60646B</color>
+    <color name="empty_tile">#90A4AE</color>
     <color name="cell_select">#636363</color>
 
-    <color name="pass_device_btn_color">#38513E</color>
+    <!-- Button Colors -->
+    <color name="pass_device_btn_color">#448AFF</color>
+    <color name="main_menu_buttons">#448AFF</color>
 
     <!-- Ship Colors -->
-    <color name="ship_color_carrier">#9A4949</color>
-    <color name="ship_color_battleship">#455A64</color>
-    <color name="ship_color_cruiser">#4A5D4F</color>
-    <color name="ship_color_submarine">#AF8F4D</color>
-    <color name="ship_color_destroyer">#6A5A72</color>
+    <color name="ship_color_carrier">#EF5350</color>
+    <color name="ship_color_battleship">#448AFF</color>
+    <color name="ship_color_cruiser">#66BB6A</color>
+    <color name="ship_color_submarine">#FFA726</color>
+    <color name="ship_color_destroyer">#AB47BC</color>
 
     <!-- Game State Colors -->
     <color name="hit_color">#FFD600</color>

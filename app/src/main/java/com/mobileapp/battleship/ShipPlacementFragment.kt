@@ -16,10 +16,6 @@ import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 
-
-/**
- * Ship placement screen.
- */
 class ShipPlacementFragment : Fragment() {
     private var _binding: FragmentShipPlacementBinding? = null
     private val binding get() = _binding!!
