@@ -12,6 +12,8 @@ import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 /**
  * Gameplay attack phase screen.
  * Players will tap a grid to attack — for now this is only a visual layout.
+ *
+ * MISS = lower alpha + disable clicking (same pattern as disableInvalidEndTiles() in ShipPlacementFragment)
  */
 class GameplayFragment : Fragment() {
 
