@@ -37,8 +37,8 @@ class GameplayFragment : Fragment() {
         _binding = FragmentGameplayBinding.inflate(inflater, container, false)
         val view = binding.root
 
-
-
+        //val gameBoard = binding.gridGameBoard
+        //setupBoard(gameBoard)
 
 
 

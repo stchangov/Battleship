@@ -8,7 +8,7 @@
     <string name="player_done">Player %1$d is done! %2$s</string>
     <string name="pass_device">Pass the device.</string>
     <string name="start_battle">Start the battle!</string>
-
+    <string name="attack_phase_text">Make An Attack</string>
 
 
 </resources>

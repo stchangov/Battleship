@@ -3,37 +3,74 @@
     Gameplay attack screen.
     GridLayout will later be where players tap to attack.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gameplayLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- Attack Phase Title -->
     <TextView
-        android:text="Attack Phase"
-        android:textSize="24sp"
+        android:id="@+id/attackTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="@string/attack_phase_text"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Grid where attacks will be selected -->
 
     <!-- After selecting a coordinate, pass the phone -->
+    <TextView
+        android:id="@+id/currentPlayerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/current_player_placing"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/attackTextView" />
+
     <GridLayout
         android:id="@+id/gridGameplay"
-        android:layout_width="376dp"
-        android:layout_height="551dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="408dp"
+        android:layout_height="407dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="158dp"
         android:layout_weight="1"
         android:columnCount="10"
-        android:rowCount="10" />
+        android:rowCount="10"
+        app:layout_constraintBottom_toTopOf="@+id/btnPassAfterAttack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentPlayerTextView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnPassAfterAttack"
-        android:text="Pass Device"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_width="240dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="104dp"
+        android:backgroundTint="@color/pass_device_btn_color"
+        android:letterSpacing="0.05"
+        android:text="@string/pass_device"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
