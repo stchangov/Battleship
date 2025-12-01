@@ -38,10 +38,14 @@ class GameplayFragment : Fragment() {
         _binding = FragmentGameplayBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        gameViewModel.currentPlayer.observe(viewLifecycleOwner) { player ->
+            val playerNum = if (player == Player.PLAYER1) 1 else 2
+            binding.currentPlayerTextView.text =
+                getString(R.string.current_player_placing, playerNum)
+        }
+
         val gameBoard = binding.gridGameplay
         setupBoard(gameBoard)
-
-
 
         return view
     }
