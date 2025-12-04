@@ -93,8 +93,8 @@ class GameplayFragment : Fragment() {
     }
 
     private fun onTileClicked(row: Int, col: Int) {
-        if (gameViewModel.isShipTile(row, col))
-            gameViewModel.registerHit(row,col)
+
+        gameViewModel.registerHit(row,col)
 
         gameViewModel.loadGameBoard(tileButtons)
     }

@@ -1,5 +1,8 @@
 package com.mobileapp.battleship
 
+import android.graphics.BlendMode
+import android.graphics.Color
+import android.graphics.ColorFilter
 import android.graphics.Insets.add
 import android.util.Log
 import android.widget.ImageView
@@ -216,7 +219,6 @@ class GameViewModel: ViewModel() {
 
         tileButtons.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { colIndex, tile ->
-
                 when (currentBoard[rowIndex][colIndex]) {
                     CellState.EMPTY -> {
                         tile?.apply {
@@ -228,6 +230,7 @@ class GameViewModel: ViewModel() {
                         tile?.apply {
                             isEnabled = true
                             alpha = 1.0f
+                            setColorFilter(Color.GREEN)
                         }
                     }
                     CellState.HIT -> {
@@ -235,12 +238,14 @@ class GameViewModel: ViewModel() {
                             isEnabled = false
                             alpha = 1.0f
                             setImageResource(R.drawable.death_skull)
+                            setColorFilter(Color.RED)
                         }
                     }
                     CellState.MISS -> {
                         tile?.apply {
                             isEnabled = false
                             alpha = 0.3f
+                            setColorFilter(Color.YELLOW)
                         }
                     }
                 }
