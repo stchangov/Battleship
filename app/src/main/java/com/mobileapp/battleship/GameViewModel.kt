@@ -158,11 +158,11 @@ class GameViewModel: ViewModel() {
     fun registerHit(x: Int, y:Int) {
         val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
             Player.PLAYER1 -> {
-                player1Board
+                player2Board
             }
 
             Player.PLAYER2 -> {
-                player2Board
+                player1Board
             }
         }
 
@@ -174,7 +174,7 @@ class GameViewModel: ViewModel() {
                 currentBoard[x][y] = CellState.MISS
             }
             else -> {
-                Log.d("DEBUG", "This button is not supposed to be clickable")
+                Log.d("DEBUG", "This tile is not supposed to be clickable")
             }
         }
     }
@@ -206,11 +206,11 @@ class GameViewModel: ViewModel() {
     fun loadGameBoard(tileButtons: Array<Array<ImageView?>>) {
         val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
             Player.PLAYER1 -> {
-                player1Board
+                player2Board
             }
 
             Player.PLAYER2 -> {
-                player2Board
+                player1Board
             }
         }
 
@@ -240,7 +240,7 @@ class GameViewModel: ViewModel() {
                     CellState.MISS -> {
                         tile?.apply {
                             isEnabled = false
-                            alpha = 3.0f
+                            alpha = 0.3f
                         }
                     }
                 }
