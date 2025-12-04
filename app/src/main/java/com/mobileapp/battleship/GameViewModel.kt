@@ -194,9 +194,45 @@ class GameViewModel: ViewModel() {
     }
 
     fun updateBoard(tileButtons: Array<Array<ImageView?>>) {
-        tileButtons.forEach { row ->
-            row.forEach { tile ->
-                tile?.apply { alpha = 0.3f }
+        tileButtons.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colIndex, tile ->
+                val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
+                    Player.PLAYER1 -> {
+                        player1Board
+                    }
+
+                    Player.PLAYER2 -> {
+                        player2Board
+                    }
+                }
+
+                when (currentBoard[rowIndex][colIndex]) {
+                    CellState.EMPTY -> {
+                        tile?.apply {
+                            isEnabled = true
+                            alpha = 1.0f
+                        }
+                    }
+                    CellState.SHIP -> {
+                        tile?.apply {
+                            isEnabled = true
+                            alpha = 1.0f
+                        }
+                    }
+                    CellState.HIT -> {
+                        tile?.apply {
+                            isEnabled = false
+                            alpha = 1.0f
+                            setImageResource(R.drawable.death_skull)
+                        }
+                    }
+                    CellState.MISS -> {
+                        tile?.apply {
+                            isEnabled = false
+                            alpha = 3.0f
+                        }
+                    }
+                }
             }
         }
     }
