@@ -76,7 +76,7 @@ class GameplayFragment : Fragment() {
 
                     // Attach listener
                     setOnClickListener {
-                        //onTileClicked(row, col)
+                        onTileClicked(row, col)
                     }
                 }
 
@@ -87,5 +87,9 @@ class GameplayFragment : Fragment() {
                 gameBoard.addView(tile)
             }
         }
+    }
+
+    private fun onTileClicked(row: Int, col: Int) {
+        gameViewModel.updateBoard(tileButtons)
     }
 }

@@ -2,6 +2,7 @@ package com.mobileapp.battleship
 
 import android.graphics.Insets.add
 import android.util.Log
+import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -192,6 +193,13 @@ class GameViewModel: ViewModel() {
         return totalHealth
     }
 
+    fun updateBoard(tileButtons: Array<Array<ImageView?>>) {
+        tileButtons.forEach { row ->
+            row.forEach { tile ->
+                tile?.apply { alpha = 0.3f }
+            }
+        }
+    }
 
     /*
     add result screen takes arg string
