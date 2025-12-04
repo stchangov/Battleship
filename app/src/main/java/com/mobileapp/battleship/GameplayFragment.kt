@@ -46,6 +46,7 @@ class GameplayFragment : Fragment() {
 
         val gameBoard = binding.gridGameplay
         setupBoard(gameBoard)
+        gameViewModel.switchToPlayer1()
 
         return view
     }

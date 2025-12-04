@@ -8,6 +8,18 @@ import androidx.lifecycle.ViewModel
 import kotlin.apply
 
 class GameViewModel: ViewModel() {
+
+    private var totalHealthP1: Int
+    private var totalHealthP2: Int
+
+    init {
+        // looks in the enum class and calculates sum of tiles of all ships
+        val totalHealth = calculateTotalHealth()
+
+        totalHealthP1 = totalHealth
+        totalHealthP2 = totalHealth
+    }
+
     // Initialize a 10x10 grid of empty cells for both players
     private var player1Board = Array(10) { Array(10) { CellState.EMPTY} }
     private var player2Board = Array(10) { Array(10) { CellState.EMPTY} }
@@ -141,23 +153,6 @@ class GameViewModel: ViewModel() {
             p2ShipsToPlace.removeFirst()
     }
 
-
-    // Checks if an attack will hit a ship
-    fun isHit(x: Int, y: Int): Boolean {
-        when (currentPlayer.value) {
-            Player.PLAYER1 -> {
-                if (player1Board[x][y] == CellState.SHIP)
-                    return true
-            }
-            Player.PLAYER2 -> {
-                if (player2Board[x][y] == CellState.SHIP)
-                    return true
-            }
-            null -> Log.d("ERROR", "currentPlayer was null")
-        }
-        return false
-    }
-
     // Turns cell state into HIT, call this function after checking with isHit
     fun registerHit(x: Int, y:Int) {
         when (currentPlayer.value) {
@@ -165,7 +160,7 @@ class GameViewModel: ViewModel() {
                 player1Board[x][y] = CellState.HIT
             }
             Player.PLAYER2 -> {
-                player1Board[x][y] = CellState.HIT
+                player2Board[x][y] = CellState.HIT
             }
             null -> Log.d("ERROR", "currentPlayer was null")
         }
@@ -200,6 +195,15 @@ class GameViewModel: ViewModel() {
         // TODO
         return false
     }
+
+    private fun calculateTotalHealth(): Int {
+        var totalHealth = 0
+        for (ship in Ship.entries) {
+            totalHealth += ship.size
+        }
+        return totalHealth
+    }
+
 
     /*
     add result screen takes arg string
