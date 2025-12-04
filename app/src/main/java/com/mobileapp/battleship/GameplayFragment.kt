@@ -116,14 +116,14 @@ class GameplayFragment : Fragment() {
         }
     }
 
+
+    // Colors are being reset for icons
     private fun clearBoard() {
         for (row in 0 until 10) {
             for (col in 0 until 10) {
                 val tile = tileButtons[row][col]
                 tile?.apply {
                     setImageResource(R.drawable.circle)
-                    setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile))
-                    alpha = 1.0f
                 }
 
             }

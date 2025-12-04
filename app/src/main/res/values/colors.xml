@@ -18,5 +18,5 @@
 
     <!-- Game State Colors -->
     <color name="hit_color">#FFD600</color>
-    <color name="miss_color">#FFFFFF</color>
+    <color name="miss_color">#AB47BC</color>
 </resources>

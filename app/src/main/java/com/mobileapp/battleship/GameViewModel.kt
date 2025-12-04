@@ -201,6 +201,7 @@ class GameViewModel: ViewModel() {
         return totalHealth
     }
 
+    // UI - Needs to be inside the fragment
     fun loadGameBoard(tileButtons: Array<Array<ImageView?>>) {
         val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
             Player.PLAYER1 -> {
@@ -232,7 +233,6 @@ class GameViewModel: ViewModel() {
                         tile?.apply {
                             isEnabled = false
                             alpha = 1.0f
-                            setImageResource(R.drawable.death_skull)
                             setColorFilter(Color.RED)
                         }
                     }
@@ -240,7 +240,7 @@ class GameViewModel: ViewModel() {
                         tile?.apply {
                             isEnabled = false
                             alpha = 0.3f
-                            setColorFilter(Color.YELLOW)
+                            setImageResource(R.drawable.miss_icon)
                         }
                     }
                 }

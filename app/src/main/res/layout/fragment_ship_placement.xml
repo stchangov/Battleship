@@ -68,7 +68,7 @@
         android:layout_marginBottom="104dp"
         android:backgroundTint="@color/pass_device_btn_color"
         android:letterSpacing="0.05"
-        android:text="@string/pass_device"
+        android:text="@string/btn_pass_device"
         android:textColor="@color/white"
         android:visibility="gone"
         app:cornerRadius="20dp"
@@ -76,6 +76,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
