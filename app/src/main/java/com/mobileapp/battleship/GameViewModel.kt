@@ -156,16 +156,26 @@ class GameViewModel: ViewModel() {
 
     // Turns cell state into HIT, call this function after checking with isHit
     fun registerHit(x: Int, y:Int) {
-        when (currentPlayer.value) {
+        val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
             Player.PLAYER1 -> {
-                player1Board[x][y] = CellState.HIT
-                totalHealthP1--
+                player1Board
             }
+
             Player.PLAYER2 -> {
-                player2Board[x][y] = CellState.HIT
-                totalHealthP2--
+                player2Board
             }
-            null -> Log.d("ERROR", "currentPlayer was null")
+        }
+
+        when (currentBoard[x][y]) {
+            CellState.SHIP -> {
+                currentBoard[x][y] = CellState.HIT
+            }
+            CellState.EMPTY -> {
+                currentBoard[x][y] = CellState.MISS
+            }
+            else -> {
+                Log.d("DEBUG", "This button is not supposed to be clickable")
+            }
         }
     }
 
@@ -193,18 +203,19 @@ class GameViewModel: ViewModel() {
         return totalHealth
     }
 
-    fun updateBoard(tileButtons: Array<Array<ImageView?>>) {
+    fun loadGameBoard(tileButtons: Array<Array<ImageView?>>) {
+        val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
+            Player.PLAYER1 -> {
+                player1Board
+            }
+
+            Player.PLAYER2 -> {
+                player2Board
+            }
+        }
+
         tileButtons.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { colIndex, tile ->
-                val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
-                    Player.PLAYER1 -> {
-                        player1Board
-                    }
-
-                    Player.PLAYER2 -> {
-                        player2Board
-                    }
-                }
 
                 when (currentBoard[rowIndex][colIndex]) {
                     CellState.EMPTY -> {

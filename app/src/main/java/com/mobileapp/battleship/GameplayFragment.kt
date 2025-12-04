@@ -45,8 +45,11 @@ class GameplayFragment : Fragment() {
         }
 
         val gameBoard = binding.gridGameplay
+
         setupBoard(gameBoard)
+
         gameViewModel.switchToPlayer1()
+        gameViewModel.loadGameBoard(tileButtons)
 
         return view
     }
@@ -90,6 +93,6 @@ class GameplayFragment : Fragment() {
     }
 
     private fun onTileClicked(row: Int, col: Int) {
-        gameViewModel.updateBoard(tileButtons)
+        //gameViewModel.updateBoard(tileButtons)
     }
 }
