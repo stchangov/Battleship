@@ -158,36 +158,24 @@ class GameViewModel: ViewModel() {
         when (currentPlayer.value) {
             Player.PLAYER1 -> {
                 player1Board[x][y] = CellState.HIT
+                totalHealthP1--
             }
             Player.PLAYER2 -> {
                 player2Board[x][y] = CellState.HIT
+                totalHealthP2--
             }
             null -> Log.d("ERROR", "currentPlayer was null")
         }
     }
 
-    // Checks if either grid has any ships left
-    // inefficiently searches entire grid, may rewrite
-    fun isWin(): Boolean {
-        for (x in 0 until 10) {
-            for (y in 0 until 10) {
-                if (player1Board[x][y] == CellState.SHIP || player2Board[x][y] == CellState.SHIP)
-                    return true
-            }
-        }
-        return false
+    // Checks if either players run out of health
+    fun isGameComplete(): Boolean {
+        return (totalHealthP1 <= 0 || totalHealthP2 <= 0)
     }
 
-    // Determines who won the game, call this function after isWin
-    // inefficiently checks player 1 if they have any ships left, may rewrite
+    // Determines who won the game, call this function after isGameComplete
     fun whoWon(): Player {
-        for (x in 0 until 10) {
-            for (y in 0 until 10) {
-                if (player1Board[x][y] == CellState.SHIP)
-                    return Player.PLAYER2
-            }
-        }
-        return Player.PLAYER1
+        return if (totalHealthP1 <= 0) Player.PLAYER1 else Player.PLAYER2
     }
 
     // might remove and place into UI logic instead
