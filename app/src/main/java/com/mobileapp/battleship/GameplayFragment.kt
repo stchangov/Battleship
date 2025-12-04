@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.mobileapp.battleship.databinding.FragmentGameplayBinding
 import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 import kotlin.getValue
@@ -45,6 +47,9 @@ class GameplayFragment : Fragment() {
         }
 
         val gameBoard = binding.gridGameplay
+        binding.btnPassAfterAttack.setOnClickListener {
+            handlePassDevice()
+        }
 
         setupBoard(gameBoard)
 
@@ -97,5 +102,44 @@ class GameplayFragment : Fragment() {
         gameViewModel.registerHit(row,col)
 
         gameViewModel.loadGameBoard(tileButtons)
+        disableBoard()
+        binding.btnPassAfterAttack.visibility = View.VISIBLE
+    }
+
+    private fun disableBoard() {
+        for (row in 0 until 10) {
+            for (col in 0 until 10) {
+                tileButtons[row][col]?.apply {
+                    isEnabled = false
+                }
+            }
+        }
+    }
+
+    private fun clearBoard() {
+        for (row in 0 until 10) {
+            for (col in 0 until 10) {
+                val tile = tileButtons[row][col]
+                tile?.apply {
+                    setImageResource(R.drawable.circle)
+                    setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile))
+                    alpha = 1.0f
+                }
+
+            }
+        }
+    }
+
+    private fun handlePassDevice() {
+
+        if (!gameViewModel.isGameComplete()) {
+            gameViewModel.switchToPlayer2()
+
+            binding.btnPassAfterAttack.visibility = View.GONE
+
+
+        } else {
+            findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)
+        }
     }
 }

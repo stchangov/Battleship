@@ -192,12 +192,6 @@ class GameViewModel: ViewModel() {
         return if (totalHealthP1 <= 0) Player.PLAYER1 else Player.PLAYER2
     }
 
-    // might remove and place into UI logic instead
-    fun isGridHidden(): Boolean {
-        // TODO
-        return false
-    }
-
     private fun calculateTotalHealth(): Int {
         var totalHealth = 0
         for (ship in Ship.entries) {

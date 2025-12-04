@@ -49,7 +49,11 @@
         android:id="@+id/gameplayFragment"
         android:name="com.mobileapp.battleship.GameplayFragment"
         android:label="Gameplay"
-        tools:layout="@layout/fragment_gameplay" />
+        tools:layout="@layout/fragment_gameplay" >
+        <action
+            android:id="@+id/action_gameplayFragment_to_gameOverFragment"
+            app:destination="@id/gameOverFragment" />
+    </fragment>
 
     <!-- Stats Screen -->
     <fragment
@@ -64,5 +68,14 @@
         android:name="com.mobileapp.battleship.InstructionsFragment"
         android:label="Instructions"
         tools:layout="@layout/fragment_instructions" />
+    <fragment
+        android:id="@+id/gameOverFragment"
+        android:name="com.mobileapp.battleship.GameOverFragment"
+        android:label="fragment_game_over"
+        tools:layout="@layout/fragment_game_over" >
+        <action
+            android:id="@+id/action_gameOverFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
+    </fragment>
 
 </navigation>
