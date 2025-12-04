@@ -133,11 +133,14 @@ class GameplayFragment : Fragment() {
     private fun handlePassDevice() {
 
         if (!gameViewModel.isGameComplete()) {
-            gameViewModel.switchToPlayer2()
-
+            if (gameViewModel.currentPlayer.value == Player.PLAYER1) {
+                gameViewModel.switchToPlayer2()
+            } else {
+                gameViewModel.switchToPlayer1()
+            }
             binding.btnPassAfterAttack.visibility = View.GONE
-
-
+            clearBoard()
+            gameViewModel.loadGameBoard(tileButtons)
         } else {
             findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)
         }

@@ -172,6 +172,7 @@ class GameViewModel: ViewModel() {
         when (currentBoard[x][y]) {
             CellState.SHIP -> {
                 currentBoard[x][y] = CellState.HIT
+                if (currentPlayer.value == Player.PLAYER1) --totalHealthP2 else --totalHealthP1
             }
             CellState.EMPTY -> {
                 currentBoard[x][y] = CellState.MISS
