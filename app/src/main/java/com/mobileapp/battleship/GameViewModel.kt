@@ -122,6 +122,8 @@ class GameViewModel: ViewModel() {
                 player2Board[row][col] = CellState.SHIP
             }
         }
+
+        // Store location of ship
     }
 
     // Keep track of ships Player 1 needs to place
@@ -233,7 +235,7 @@ class GameViewModel: ViewModel() {
                         tile?.apply {
                             isEnabled = false
                             alpha = 1.0f
-                            setColorFilter(Color.RED)
+                            setImageResource(R.drawable.hit_icon)
                         }
                     }
                     CellState.MISS -> {
