@@ -1,5 +1,6 @@
 package com.mobileapp.battleship
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -54,7 +55,7 @@ class GameplayFragment : Fragment() {
         setupBoard(gameBoard)
 
         gameViewModel.switchToPlayer1()
-        gameViewModel.loadGameBoard(tileButtons)
+        loadGameBoard()
 
         return view
     }
@@ -101,7 +102,7 @@ class GameplayFragment : Fragment() {
 
         gameViewModel.registerHit(row,col)
 
-        gameViewModel.loadGameBoard(tileButtons)
+        loadGameBoard()
         disableBoard()
         binding.btnPassAfterAttack.visibility = View.VISIBLE
     }
@@ -124,8 +125,47 @@ class GameplayFragment : Fragment() {
                 val tile = tileButtons[row][col]
                 tile?.apply {
                     setImageResource(R.drawable.circle)
+                    setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile))
+                    alpha = 1.0f
                 }
+            }
+        }
+    }
 
+    fun loadGameBoard() {
+        val currentBoard : Array<Array<CellState>> = gameViewModel.getEnemyBoard()
+
+        tileButtons.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { colIndex, tile ->
+                when (currentBoard[rowIndex][colIndex]) {
+                    CellState.EMPTY -> {
+                        tile?.apply {
+                            isEnabled = true
+                            alpha = 1.0f
+                        }
+                    }
+                    CellState.SHIP -> {
+                        tile?.apply {
+                            isEnabled = true
+                            alpha = 1.0f
+                            setColorFilter(Color.GREEN)
+                        }
+                    }
+                    CellState.HIT -> {
+                        tile?.apply {
+                            isEnabled = false
+                            alpha = 1.0f
+                            setImageResource(R.drawable.hit_icon)
+                        }
+                    }
+                    CellState.MISS -> {
+                        tile?.apply {
+                            isEnabled = false
+                            alpha = 0.3f
+                            setImageResource(R.drawable.miss_icon)
+                        }
+                    }
+                }
             }
         }
     }
@@ -138,9 +178,10 @@ class GameplayFragment : Fragment() {
             } else {
                 gameViewModel.switchToPlayer1()
             }
+
             binding.btnPassAfterAttack.visibility = View.GONE
             clearBoard()
-            gameViewModel.loadGameBoard(tileButtons)
+            loadGameBoard()
         } else {
             findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)
         }

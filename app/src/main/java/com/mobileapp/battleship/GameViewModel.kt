@@ -203,49 +203,14 @@ class GameViewModel: ViewModel() {
         return totalHealth
     }
 
-    // UI - Needs to be inside the fragment
-    fun loadGameBoard(tileButtons: Array<Array<ImageView?>>) {
-        val currentBoard :  Array<Array<CellState>> = when (currentPlayer.value) {
+    fun getEnemyBoard(): Array<Array<CellState>> {
+        return when (currentPlayer.value) {
             Player.PLAYER1 -> {
                 player2Board
             }
 
             Player.PLAYER2 -> {
                 player1Board
-            }
-        }
-
-        tileButtons.forEachIndexed { rowIndex, row ->
-            row.forEachIndexed { colIndex, tile ->
-                when (currentBoard[rowIndex][colIndex]) {
-                    CellState.EMPTY -> {
-                        tile?.apply {
-                            isEnabled = true
-                            alpha = 1.0f
-                        }
-                    }
-                    CellState.SHIP -> {
-                        tile?.apply {
-                            isEnabled = true
-                            alpha = 1.0f
-                            setColorFilter(Color.GREEN)
-                        }
-                    }
-                    CellState.HIT -> {
-                        tile?.apply {
-                            isEnabled = false
-                            alpha = 1.0f
-                            setImageResource(R.drawable.hit_icon)
-                        }
-                    }
-                    CellState.MISS -> {
-                        tile?.apply {
-                            isEnabled = false
-                            alpha = 0.3f
-                            setImageResource(R.drawable.miss_icon)
-                        }
-                    }
-                }
             }
         }
     }
