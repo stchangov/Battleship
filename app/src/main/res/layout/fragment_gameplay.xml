@@ -66,7 +66,7 @@
         android:layout_marginBottom="104dp"
         android:backgroundTint="@color/pass_device_btn_color"
         android:letterSpacing="0.05"
-        android:text="@string/pass_device"
+        android:text="@string/finish_text"
         android:textColor="@color/white"
         android:visibility="gone"
         app:cornerRadius="20dp"

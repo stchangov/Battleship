@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlin.Array
 import kotlin.apply
 
 class GameViewModel: ViewModel() {
@@ -22,6 +23,55 @@ class GameViewModel: ViewModel() {
 
         totalHealthP1 = totalHealth
         totalHealthP2 = totalHealth
+    }
+
+    private val placedShipsP1 = mutableListOf<ShipStatus>()
+    private val placedShipsP2 = mutableListOf<ShipStatus>()
+    private val shipLocationsP1 = mutableMapOf<Pair<Int,Int>, Int>()
+    private val shipLocationsP2 = mutableMapOf<Pair<Int,Int>, Int>()
+
+    private fun getCurrentPlacedShip(): MutableList<ShipStatus> {
+        return when (currentPlayer.value) {
+            Player.PLAYER1 -> {
+                placedShipsP1
+            }
+
+            Player.PLAYER2 -> {
+                placedShipsP2
+            }
+        }
+    }
+
+    private fun getCurrentShipLocs():  MutableMap<Pair<Int, Int>, Int> {
+        return when (currentPlayer.value) {
+            Player.PLAYER1 -> {
+                shipLocationsP1
+            }
+
+            Player.PLAYER2 -> {
+                shipLocationsP2
+            }
+        }
+    }
+
+    private fun storeShipLocation(cells: List<Pair<Int, Int>>, shipType: Ship) {
+        val currentPlacedShip = getCurrentPlacedShip()
+
+        val currentShipLocs = getCurrentShipLocs()
+
+        currentPlacedShip.add(ShipStatus(shipType))
+
+        for (cell in cells) {
+            currentShipLocs[cell] = currentPlacedShip.lastIndex
+        }
+    }
+
+    private fun decShipHealth(coord: Pair<Int, Int>) {
+        val currentPlacedShip = getCurrentPlacedShip()
+
+        val currentShipLocs = getCurrentShipLocs()
+
+        currentPlacedShip[currentShipLocs[coord]!!].health--
     }
 
     // Initialize a 10x10 grid of empty cells for both players
@@ -41,6 +91,7 @@ class GameViewModel: ViewModel() {
     }
 
     // keep track of ships left to place
+    // TODO unused variables
     private var battleshipPlaced = false
     private var cruiserPlaced = false
     private var submarinePlaced = false
@@ -124,6 +175,7 @@ class GameViewModel: ViewModel() {
         }
 
         // Store location of ship
+        storeShipLocation(cells, currentShip())
     }
 
     // Keep track of ships Player 1 needs to place

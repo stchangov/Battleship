@@ -1,5 +1,6 @@
 package com.mobileapp.battleship
 
+import android.app.GameState
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -103,8 +104,10 @@ class GameplayFragment : Fragment() {
         gameViewModel.registerHit(row,col)
 
         loadGameBoard()
-        disableBoard()
-        binding.btnPassAfterAttack.visibility = View.VISIBLE
+        if (gameViewModel.getEnemyBoard()[row][col] == CellState.MISS || gameViewModel.isGameComplete()) {
+            disableBoard()
+            binding.btnPassAfterAttack.visibility = View.VISIBLE
+        }
     }
 
     private fun disableBoard() {
@@ -116,7 +119,6 @@ class GameplayFragment : Fragment() {
             }
         }
     }
-
 
     // Colors are being reset for icons
     // TODO remove debug coloring
@@ -182,7 +184,7 @@ class GameplayFragment : Fragment() {
             }
 
             binding.btnPassAfterAttack.visibility = View.GONE
-            clearColor()
+            clearColor() // TODO remove debug coloring
             loadGameBoard()
         } else {
             findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)
