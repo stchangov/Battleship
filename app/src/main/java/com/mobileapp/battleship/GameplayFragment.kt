@@ -119,13 +119,13 @@ class GameplayFragment : Fragment() {
 
 
     // Colors are being reset for icons
-    private fun clearBoard() {
+    // TODO remove debug coloring
+    private fun clearColor() {
         for (row in 0 until 10) {
             for (col in 0 until 10) {
                 val tile = tileButtons[row][col]
                 tile?.apply {
-                    setImageResource(R.drawable.circle)
-                    setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile)) // TODO remove when done
+                    setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile))
                     alpha = 1.0f
                 }
             }
@@ -150,6 +150,7 @@ class GameplayFragment : Fragment() {
                             isEnabled = true
                             alpha = 1.0f
                             setImageResource(R.drawable.circle)
+                            setColorFilter(Color.GREEN) // TODO remove debug coloring
                         }
                     }
                     CellState.HIT -> {
@@ -181,7 +182,7 @@ class GameplayFragment : Fragment() {
             }
 
             binding.btnPassAfterAttack.visibility = View.GONE
-            //clearBoard()
+            clearColor()
             loadGameBoard()
         } else {
             findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)
