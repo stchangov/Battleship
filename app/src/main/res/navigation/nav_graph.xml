@@ -76,6 +76,18 @@
         <action
             android:id="@+id/action_gameOverFragment_to_mainMenuFragment"
             app:destination="@id/mainMenuFragment" />
+        <argument
+            android:name="hitsMadeByP1"
+            app:argType="integer" />
+        <argument android:name="hitsMadeByP2"
+            app:argType="integer" />
+        <argument android:name="missMadeByP1"
+            app:argType="integer" />
+        <argument android:name="missMadeByP2"
+            app:argType="integer" />
+        <argument
+            android:name="winner"
+            app:argType="com.mobileapp.battleship.Player" />
     </fragment>
 
 </navigation>

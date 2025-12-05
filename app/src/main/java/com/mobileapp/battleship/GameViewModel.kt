@@ -1,5 +1,6 @@
 package com.mobileapp.battleship
 
+import android.R
 import android.graphics.BlendMode
 import android.graphics.Color
 import android.graphics.ColorFilter
@@ -269,7 +270,7 @@ class GameViewModel: ViewModel() {
 
     // Determines who won the game, call this function after isGameComplete
     fun whoWon(): Player {
-        return if (totalHealthP1 <= 0) Player.PLAYER1 else Player.PLAYER2
+        return if (totalHealthP1 <= 0) Player.PLAYER2 else Player.PLAYER1
     }
 
     private fun calculateTotalHealth(): Int {
@@ -290,6 +291,38 @@ class GameViewModel: ViewModel() {
                 player1Board
             }
         }
+    }
+
+    fun hitsMadeByP1(): Pair<Int, Int> {
+        var hits = 0
+        var misses = 0
+
+        player2Board.forEach { row ->
+            row.forEach { tile ->
+                if (tile == CellState.HIT)
+                    hits++
+                else if (tile == CellState.MISS)
+                    misses++
+            }
+        }
+
+        return Pair(hits, misses)
+    }
+
+    fun hitsMadeByP2(): Pair<Int, Int> {
+        var hits = 0
+        var misses = 0
+
+        player1Board.forEach { row ->
+            row.forEach { tile ->
+                if (tile == CellState.HIT)
+                    hits++
+                else if (tile == CellState.MISS)
+                    misses++
+            }
+        }
+
+        return Pair(hits, misses)
     }
 
     /*

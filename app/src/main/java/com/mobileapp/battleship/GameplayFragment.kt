@@ -197,7 +197,19 @@ class GameplayFragment : Fragment() {
             clearColor()
             loadGameBoard()
         } else {
-            findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)
+
+            val statsP1 = gameViewModel.hitsMadeByP1()
+            val statsP2 = gameViewModel.hitsMadeByP2()
+
+            val action = GameplayFragmentDirections.actionGameplayFragmentToGameOverFragment(
+                statsP1.first,
+                statsP2.first,
+                statsP1.second,
+                statsP2.second,
+                gameViewModel.whoWon()
+            )
+
+            findNavController().navigate(action)
         }
     }
 }
