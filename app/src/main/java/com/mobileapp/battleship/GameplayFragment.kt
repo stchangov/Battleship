@@ -125,7 +125,7 @@ class GameplayFragment : Fragment() {
                 val tile = tileButtons[row][col]
                 tile?.apply {
                     setImageResource(R.drawable.circle)
-                    setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile))
+                    setColorFilter(ContextCompat.getColor(requireContext(), R.color.empty_tile)) // TODO remove when done
                     alpha = 1.0f
                 }
             }
@@ -142,13 +142,14 @@ class GameplayFragment : Fragment() {
                         tile?.apply {
                             isEnabled = true
                             alpha = 1.0f
+                            setImageResource(R.drawable.circle)
                         }
                     }
                     CellState.SHIP -> {
                         tile?.apply {
                             isEnabled = true
                             alpha = 1.0f
-                            setColorFilter(Color.GREEN)
+                            setImageResource(R.drawable.circle)
                         }
                     }
                     CellState.HIT -> {
@@ -180,7 +181,7 @@ class GameplayFragment : Fragment() {
             }
 
             binding.btnPassAfterAttack.visibility = View.GONE
-            clearBoard()
+            //clearBoard()
             loadGameBoard()
         } else {
             findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)
