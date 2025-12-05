@@ -11,6 +11,7 @@
     <string name="start_battle">Start the battle!</string>
     <string name="attack_phase_text">Make An Attack</string>
     <string name="finish_text">Finish</string>
+    <string name="congrat_text">Congrats, you win!</string>
 
 
 </resources>

@@ -107,6 +107,7 @@ class GameplayFragment : Fragment() {
         if (gameViewModel.getEnemyBoard()[row][col] == CellState.MISS || gameViewModel.isGameComplete()) {
             disableBoard()
             binding.btnPassAfterAttack.visibility = View.VISIBLE
+            if (gameViewModel.isGameComplete()) binding.attackTextView.text = getString(R.string.congrat_text)
         }
     }
 
@@ -121,7 +122,6 @@ class GameplayFragment : Fragment() {
     }
 
     // Colors are being reset for icons
-    // TODO remove debug coloring
     private fun clearColor() {
         for (row in 0 until 10) {
             for (col in 0 until 10) {
@@ -136,6 +136,8 @@ class GameplayFragment : Fragment() {
 
     fun loadGameBoard() {
         val currentBoard : Array<Array<CellState>> = gameViewModel.getEnemyBoard()
+        val currentPlacedShip = gameViewModel.getEnemyPlacedShip()
+        val currentShipLocs = gameViewModel.getEnemyShipLocs()
 
         tileButtons.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { colIndex, tile ->
@@ -160,6 +162,14 @@ class GameplayFragment : Fragment() {
                             isEnabled = false
                             alpha = 1.0f
                             setImageResource(R.drawable.hit_icon)
+
+                            if (currentShipLocs[Pair(rowIndex, colIndex)] != null &&
+                                currentPlacedShip[currentShipLocs[Pair(rowIndex, colIndex)]!!].health == 0) {
+
+                                setImageResource(R.drawable.death_skull)
+                                val shipColor = ContextCompat.getColor(requireContext(), currentPlacedShip[currentShipLocs[Pair(rowIndex, colIndex)]!!].shipType.colorRes) // oh no
+                                setColorFilter(shipColor)
+                            }
                         }
                     }
                     CellState.MISS -> {
@@ -184,7 +194,7 @@ class GameplayFragment : Fragment() {
             }
 
             binding.btnPassAfterAttack.visibility = View.GONE
-            clearColor() // TODO remove debug coloring
+            clearColor()
             loadGameBoard()
         } else {
             findNavController().navigate(R.id.action_gameplayFragment_to_gameOverFragment)

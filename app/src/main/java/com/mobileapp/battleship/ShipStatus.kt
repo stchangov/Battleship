@@ -1,3 +1,3 @@
 package com.mobileapp.battleship
 
-data class ShipStatus(var shipType: Ship, var health: Int = shipType.size)
+data class ShipStatus(val shipType: Ship, val cells: List<Pair<Int, Int>>, var health: Int = shipType.size)

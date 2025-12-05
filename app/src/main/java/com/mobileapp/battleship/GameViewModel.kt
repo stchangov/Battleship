@@ -42,6 +42,18 @@ class GameViewModel: ViewModel() {
         }
     }
 
+    fun getEnemyPlacedShip(): MutableList<ShipStatus> {
+        return when (currentPlayer.value) {
+            Player.PLAYER1 -> {
+                placedShipsP2
+            }
+
+            Player.PLAYER2 -> {
+                placedShipsP1
+            }
+        }
+    }
+
     private fun getCurrentShipLocs():  MutableMap<Pair<Int, Int>, Int> {
         return when (currentPlayer.value) {
             Player.PLAYER1 -> {
@@ -54,22 +66,34 @@ class GameViewModel: ViewModel() {
         }
     }
 
+    fun getEnemyShipLocs():  MutableMap<Pair<Int, Int>, Int> {
+        return when (currentPlayer.value) {
+            Player.PLAYER1 -> {
+                shipLocationsP2
+            }
+
+            Player.PLAYER2 -> {
+                shipLocationsP1
+            }
+        }
+    }
+
     private fun storeShipLocation(cells: List<Pair<Int, Int>>, shipType: Ship) {
         val currentPlacedShip = getCurrentPlacedShip()
 
         val currentShipLocs = getCurrentShipLocs()
 
-        currentPlacedShip.add(ShipStatus(shipType))
+        currentPlacedShip.add(ShipStatus(shipType, cells))
 
         for (cell in cells) {
             currentShipLocs[cell] = currentPlacedShip.lastIndex
         }
     }
 
-    private fun decShipHealth(coord: Pair<Int, Int>) {
-        val currentPlacedShip = getCurrentPlacedShip()
+    private fun decEnemyShipHealth(coord: Pair<Int, Int>) {
+        val currentPlacedShip = getEnemyPlacedShip()
 
-        val currentShipLocs = getCurrentShipLocs()
+        val currentShipLocs = getEnemyShipLocs()
 
         currentPlacedShip[currentShipLocs[coord]!!].health--
     }
@@ -226,6 +250,7 @@ class GameViewModel: ViewModel() {
         when (currentBoard[x][y]) {
             CellState.SHIP -> {
                 currentBoard[x][y] = CellState.HIT
+                decEnemyShipHealth(Pair(x,y))
                 if (currentPlayer.value == Player.PLAYER1) --totalHealthP2 else --totalHealthP1
             }
             CellState.EMPTY -> {
