@@ -325,6 +325,9 @@ class GameViewModel: ViewModel() {
         return Pair(hits, misses)
     }
 
+    var lastHitPos: Pair<Int, Int>? = null
+
+
     /*
     add result screen takes arg string
      */

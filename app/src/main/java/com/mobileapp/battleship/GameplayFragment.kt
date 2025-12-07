@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -103,6 +106,8 @@ class GameplayFragment : Fragment() {
 
         gameViewModel.registerHit(row,col)
 
+        gameViewModel.lastHitPos = row to col
+
         loadGameBoard()
         if (gameViewModel.getEnemyBoard()[row][col] == CellState.MISS || gameViewModel.isGameComplete()) {
             disableBoard()
@@ -134,6 +139,80 @@ class GameplayFragment : Fragment() {
         }
     }
 
+    private fun shakeTile(view: View) {
+        view.animate()
+            .translationXBy(6f)     // smaller movement
+            .setDuration(60)
+            .withEndAction {
+                view.animate()
+                    .translationXBy(-12f)
+                    .setDuration(60)
+                    .withEndAction {
+                        view.animate()
+                            .translationXBy(6f)
+                            .setDuration(60)
+                            .start()
+                    }.start()
+            }.start()
+    }
+
+    private fun missSplash(view: View) {
+        // Shrink first
+        view.animate()
+            .alpha(0.6f)        // soften the tile a bit
+            .scaleX(0.9f)       // slight shrink
+            .scaleY(0.9f)
+            .setDuration(100)
+            .withEndAction {
+
+                // Phase 2 — Slightly expand
+                view.animate()
+                    .alpha(0.85f)       // back toward full
+                    .scaleX(1.1f)       // slight expansion
+                    .scaleY(1.1f)
+                    .setDuration(120)
+                    .withEndAction {
+
+                        // Settle back to original size
+                        view.animate()
+                            .alpha(1f)
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(120)
+                            .start()
+
+                    }.start()
+            }.start()
+    }
+
+    private fun fadeOutTile(view: ImageView) {
+        view.animate()
+            .alpha(0.35f)    // underwater look
+            .setDuration(600) // slow + dramatic
+            .start()
+    }
+
+    private fun fadeOutShipAllAtOnce(shipCells: List<Pair<Int, Int>>) {
+        for ((r, c) in shipCells) {
+            tileButtons[r][c]?.let { fadeOutTile(it) }
+        }
+    }
+
+    private fun screenShake() {
+        val root = binding.root
+
+        root.animate()
+            .translationX(2f)   // very small nudge
+            .setDuration(45)
+            .withEndAction {
+                root.animate()
+                    .translationX(0f)   // return to normal
+                    .setDuration(45)
+                    .start()
+            }
+            .start()
+    }
+
     fun loadGameBoard() {
         val currentBoard : Array<Array<CellState>> = gameViewModel.getEnemyBoard()
         val currentPlacedShip = gameViewModel.getEnemyPlacedShip()
@@ -159,24 +238,50 @@ class GameplayFragment : Fragment() {
                     }
                     CellState.HIT -> {
                         tile?.apply {
-                            isEnabled = false
-                            alpha = 1.0f
-                            setImageResource(R.drawable.hit_icon)
+                            val shipIndex = currentShipLocs[Pair(rowIndex, colIndex)]
+                            val shipIsDestroyed = shipIndex != null &&
+                                    currentPlacedShip[shipIndex].health == 0
 
-                            if (currentShipLocs[Pair(rowIndex, colIndex)] != null &&
-                                currentPlacedShip[currentShipLocs[Pair(rowIndex, colIndex)]!!].health == 0) {
+                            if (shipIsDestroyed) {
 
-                                setImageResource(R.drawable.death_skull)
-                                val shipColor = ContextCompat.getColor(requireContext(), currentPlacedShip[currentShipLocs[Pair(rowIndex, colIndex)]!!].shipType.colorRes) // oh no
+                                val idx = shipIndex!!
+
+                                setImageResource(R.drawable.ship_tile)
+
+                                val shipColor = ContextCompat.getColor(
+                                    requireContext(),
+                                    currentPlacedShip[idx].shipType.colorRes
+                                )
                                 setColorFilter(shipColor)
+
+                                if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
+                                    fadeOutShipAllAtOnce(currentPlacedShip[idx].cells)
+                                    screenShake()
+                                }
+
+                                return@apply
+                            }
+
+                            // NORMAL HIT TILE — does not apply to fatal hit
+                            setImageResource(R.drawable.hit_icon)
+                            alpha = 1f
+                            isEnabled = false
+
+                            if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
+                                shakeTile(this)
                             }
                         }
                     }
+
                     CellState.MISS -> {
                         tile?.apply {
                             isEnabled = false
                             alpha = 0.3f
                             setImageResource(R.drawable.miss_icon)
+
+                            if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
+                                missSplash(this)
+                            }
                         }
                     }
                 }
