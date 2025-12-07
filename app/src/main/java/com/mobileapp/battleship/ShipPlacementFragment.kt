@@ -1,12 +1,9 @@
 package com.mobileapp.battleship
 
-import android.content.res.ColorStateList
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -14,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.button.MaterialButton
 
 class ShipPlacementFragment : Fragment() {
     private var _binding: FragmentShipPlacementBinding? = null
@@ -37,6 +33,11 @@ class ShipPlacementFragment : Fragment() {
             val playerNum = if (player == Player.PLAYER1) 1 else 2
             binding.txtCurrentPlayerPlacing.text =
                 getString(R.string.current_player_placing, playerNum)
+        }
+
+        binding.btnUndo.setOnClickListener {
+            gameViewModel.resetStartSelection()
+            refreshBoardUI()
         }
 
         binding.btnPassDevice.setOnClickListener {
@@ -93,7 +94,7 @@ class ShipPlacementFragment : Fragment() {
         }
     }
 
-    private fun resetBoardUI() {
+    private fun refreshBoardUI() {
         for (row in 0 until 10) {
             for (col in 0 until 10) {
                 val tile = tileButtons[row][col]
@@ -118,6 +119,7 @@ class ShipPlacementFragment : Fragment() {
             gameViewModel.p1ShipsToPlace.isEmpty()
         ) {
             binding.btnPassDevice.visibility = View.VISIBLE
+            binding.btnUndo.visibility = View.GONE
             binding.txtCurrentPlayerPlacing.text =
                 getString(R.string.player_done, 1, getString(R.string.pass_device))
 
@@ -130,6 +132,8 @@ class ShipPlacementFragment : Fragment() {
             gameViewModel.p2ShipsToPlace.isEmpty()
         ) {
             binding.btnPassDevice.visibility = View.VISIBLE
+            binding.btnUndo.visibility = View.GONE
+            binding.btnPassDevice.text = getString(R.string.start_battle)
             binding.txtCurrentPlayerPlacing.text =
                 getString(R.string.player_done, 2, getString(R.string.start_battle))
 
@@ -183,7 +187,7 @@ class ShipPlacementFragment : Fragment() {
 
         gameViewModel.popShip()
         gameViewModel.isSelectingStart = true
-        resetBoardUI()
+        refreshBoardUI()
         checkIfPlayerDonePlacing()
     }
 
@@ -297,7 +301,8 @@ class ShipPlacementFragment : Fragment() {
 
             binding.btnPassDevice.visibility = View.GONE
 
-            resetBoardUI()
+            refreshBoardUI()
+            binding.btnUndo.visibility = View.VISIBLE
             return
 
         } else if (p2Done) {

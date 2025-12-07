@@ -68,7 +68,7 @@
         android:layout_marginBottom="104dp"
         android:backgroundTint="@color/pass_device_btn_color"
         android:letterSpacing="0.05"
-        android:text="@string/btn_pass_device"
+        android:text="@string/ready"
         android:textColor="@color/white"
         android:visibility="gone"
         app:cornerRadius="20dp"
@@ -76,5 +76,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btn_undo"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        android:layout_width="127dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="@color/undo_button"
+        android:gravity="center"
+        android:padding="0dp"
+
+        app:cornerRadius="20dp"
+        app:icon="@drawable/undo"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="35dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_PassDevice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grid_gameBoard"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
