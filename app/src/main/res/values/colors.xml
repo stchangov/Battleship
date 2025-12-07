@@ -8,6 +8,7 @@
     <!-- Button Colors -->
     <color name="pass_device_btn_color">#448AFF</color>
     <color name="main_menu_buttons">#448AFF</color>
+    <color name="undo_button">#E0E0E0</color>
 
     <!-- Ship Colors -->
     <color name="ship_color_carrier">#EF5350</color>

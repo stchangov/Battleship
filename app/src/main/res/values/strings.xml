@@ -13,6 +13,7 @@
     <string name="finish_text">Finish</string>
     <string name="congrat_text">Congrats, you win!</string>
     <string name="who_won_text">Congrats Player %d! You won!</string>
+    <string name="ready">Ready</string>
     <plurals name="hits_p1_text">
         <item quantity="one">Player 1 made %d hit</item>
         <item quantity="other">Player 1 made %d hits</item>
@@ -33,6 +34,7 @@
     <string name="scroll_label_text">Previous games (oldest to newest):</string>
     <string name="game_history_text">Game History\n(Oldest to Newest)</string>
     <string name="no_prev_game_text">No previous games found.</string>
+
 
 
 </resources>
