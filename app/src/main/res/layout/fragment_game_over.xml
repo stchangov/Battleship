@@ -13,7 +13,7 @@
         android:id="@+id/playerWinTextBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="44dp"
         android:gravity="center"
         android:text="@string/who_won_text"
         android:textSize="30sp"
@@ -69,22 +69,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player2HitsBox" />
 
-    <TextView
-        android:id="@+id/testFileIOBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:gravity="center"
-        android:text="@string/who_won_text"
-        android:textSize="15sp"
+    <ScrollView
+        android:id="@+id/scrollViewBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/backMenuButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/player2MissBox" />
+        app:layout_constraintTop_toBottomOf="@+id/player2MissBox">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutScrollBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewScrollLabelBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/scroll_label_text"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewScrollBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/who_won_text"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/backMenuButton"
         android:layout_width="240dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="104dp"
         android:backgroundTint="@color/pass_device_btn_color"
         android:letterSpacing="0.05"
         android:text="@string/return_to_menu_text"
@@ -92,7 +119,6 @@
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testFileIOBox" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

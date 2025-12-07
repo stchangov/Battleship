@@ -54,7 +54,7 @@ class GameOverFragment : Fragment() {
 
         viewModel.writeToFile(requireContext())
 
-        binding.testFileIOBox.text = viewModel.readFromFile(requireContext())
+        binding.textViewScrollBox.text = viewModel.readFromFile(requireContext())
 
         return binding.root
     }

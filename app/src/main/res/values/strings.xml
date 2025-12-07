@@ -12,24 +12,25 @@
     <string name="attack_phase_text">Make An Attack</string>
     <string name="finish_text">Finish</string>
     <string name="congrat_text">Congrats, you win!</string>
-    <string name="who_won_text">Congrats Player %d! You Won!</string>
+    <string name="who_won_text">Congrats Player %d! You won!</string>
     <plurals name="hits_p1_text">
-        <item quantity="one">Player 1 made %d hit.</item>
-        <item quantity="other">Player 1 made %d hits.</item>
+        <item quantity="one">Player 1 made %d hit</item>
+        <item quantity="other">Player 1 made %d hits</item>
     </plurals>
     <plurals name="hits_p2_text">
-        <item quantity="one">Player 2 made %d hit.</item>
-        <item quantity="other">Player 2 made %d hits.</item>
+        <item quantity="one">Player 2 made %d hit</item>
+        <item quantity="other">Player 2 made %d hits</item>
     </plurals>
     <plurals name="misses_p1_text">
-        <item quantity="one">Player 1 made %d miss.</item>
-        <item quantity="other">Player 1 made %d misses.</item>
+        <item quantity="one">and %d miss.</item>
+        <item quantity="other">and %d misses.</item>
     </plurals>
     <plurals name="misses_p2_text">
-        <item quantity="one">Player 2 made %d miss.</item>
-        <item quantity="other">Player 2 made %d misses.</item>
+        <item quantity="one">and %d miss.</item>
+        <item quantity="other">and %d misses.</item>
     </plurals>
     <string name="return_to_menu_text">Return to Menu</string>
+    <string name="scroll_label_text">Previous games (oldest to newest):</string>
 
 
 </resources>
