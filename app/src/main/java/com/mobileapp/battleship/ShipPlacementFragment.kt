@@ -147,6 +147,53 @@ class ShipPlacementFragment : Fragment() {
         }
     }
 
+    private fun softPop(view: ImageView) {
+        view.animate()
+            .scaleX(1.08f)
+            .scaleY(1.08f)
+            .setDuration(90)
+            .withEndAction {
+                view.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(90)
+                    .start()
+            }
+            .start()
+    }
+
+    private fun fadeInTile(view: ImageView) {
+        view.alpha = 0.7f
+        view.animate()
+            .alpha(1f)
+            .setDuration(140)
+            .start()
+    }
+
+    private fun plopTile(view: ImageView) {
+        view.animate()
+            .translationY(2f)       // slight drop
+            .scaleY(0.94f)          // slight squish
+            .setDuration(110)
+            .withEndAction {
+                view.animate()
+                    .translationY(0f)
+                    .scaleY(1f)
+                    .setDuration(110)
+                    .start()
+            }
+            .start()
+    }
+
+    private fun plopShip(shipCells: List<Pair<Int, Int>>) {
+        for ((r, c) in shipCells) {
+            tileButtons[r][c]?.let { plopTile(it) }
+        }
+    }
+
+
+
+
     private fun onTileClicked(row: Int, col: Int) {
         // Handle selecting the start tile
         if (gameViewModel.isSelectingStart) {
@@ -156,6 +203,8 @@ class ShipPlacementFragment : Fragment() {
             gameViewModel.isSelectingStart = false
 
             highlightStartTile(row, col)
+
+            tileButtons[row][col]?.let { softPop(it) }
 
             disableInvalidEndTiles(row, col)
 
@@ -178,8 +227,13 @@ class ShipPlacementFragment : Fragment() {
 
         gameViewModel.placeShip(shipCells)
 
+        tileButtons[row][col]?.let { softPop(it) }
+
         // Show the full ship
         highlightFullShip(shipCells)
+
+        plopShip(shipCells)
+
 
         gameViewModel.popShip()
         gameViewModel.isSelectingStart = true
