@@ -20,4 +20,5 @@
     <!-- Game State Colors -->
     <color name="hit_color">#FFD600</color>
     <color name="miss_color">#AB47BC</color>
+    <color name="ship_hit_neutral">#555555</color>
 </resources>

@@ -241,6 +241,24 @@ class GameplayFragment : Fragment() {
             .start()
     }
 
+    private fun animateKillTileAndSinkShip(
+        killTile: ImageView,
+        shipCells: List<Pair<Int, Int>>
+    ) {
+        // Reveal the ship color smoothly
+        killTile.animate()
+            .alpha(0.8f)     // fade-in to near solid (prevent color flash)
+            .setDuration(220)
+            .withEndAction {
+
+                fadeOutShipAllAtOnce(shipCells)
+
+                screenShake()
+            }
+            .start()
+    }
+
+
 
     fun loadGameBoard() {
         val currentBoard : Array<Array<CellState>> = gameViewModel.getEnemyBoard()
@@ -267,51 +285,54 @@ class GameplayFragment : Fragment() {
                     }
                     CellState.HIT -> {
                         tile?.apply {
-                            val shipIndex = currentShipLocs[Pair(rowIndex, colIndex)]
-                            val shipIsDestroyed = shipIndex != null &&
+                            val shipIndex = currentShipLocs[rowIndex to colIndex]
+                            val shipDestroyed = shipIndex != null &&
                                     currentPlacedShip[shipIndex].health == 0
 
-                            if (shipIsDestroyed) {
+                            val idx = shipIndex
 
-                                val idx = shipIndex!!
+                            setImageResource(R.drawable.ship_tile)
 
-                                setImageResource(R.drawable.ship_tile)
-
-                                val shipColor = ContextCompat.getColor(
-                                    requireContext(),
-                                    currentPlacedShip[idx].shipType.colorRes
-                                )
-                                setColorFilter(shipColor)
-
-                                if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
-                                    fadeOutShipAllAtOnce(currentPlacedShip[idx].cells)
-                                    screenShake()
+                            if (idx != null) {
+                                val colorToShow = if (shipDestroyed) {
+                                    // Reveal actual ship color once destroyed
+                                    ContextCompat.getColor(
+                                        requireContext(),
+                                        currentPlacedShip[idx].shipType.colorRes
+                                    )
+                                } else {
+                                    // hit but not destroyed
+                                    ContextCompat.getColor(requireContext(), R.color.ship_hit_neutral)
                                 }
 
+                                setColorFilter(colorToShow)
+                            }
+
+                            if (shipDestroyed) {
                                 isEnabled = false
+
+                                // Only animate if this tile was the one actually hit this turn
+                                if (gameViewModel.lastHitPos != null &&
+                                    gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
+                                    animateKillTileAndSinkShip(this, currentPlacedShip[idx!!].cells)
+                                }
+
                                 return@apply
                             }
 
-                            // NORMAL HIT TILE — does not apply to fatal hit
-                            setImageResource(R.drawable.ship_tile)
-                            if (shipIndex != null) {
-                                val shipColor = ContextCompat.getColor(
-                                    requireContext(),
-                                    currentPlacedShip[shipIndex].shipType.colorRes
-                                )
-                                setColorFilter(shipColor)
-                            }
-
-                            // Hit tile - dim it
+                            // Normal hit
                             alpha = 0.50f
                             isEnabled = false
 
-                            // Animate only the tile hit this turn.
-                            if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
+                            if (gameViewModel.lastHitPos != null &&
+                                gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
+
                                 impactPulse(this)
                             }
                         }
                     }
+
+
 
                     CellState.MISS -> {
                         tile?.apply {
@@ -339,6 +360,10 @@ class GameplayFragment : Fragment() {
             }
 
             binding.btnPassAfterAttack.visibility = View.GONE
+
+            // Reset lastHitPos so no animations trigger when the new player sees the board
+            gameViewModel.lastHitPos = null
+
             clearColor()
             loadGameBoard()
         } else {
