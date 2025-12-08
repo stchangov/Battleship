@@ -288,6 +288,7 @@ class GameplayFragment : Fragment() {
                                     screenShake()
                                 }
 
+                                isEnabled = false
                                 return@apply
                             }
 
