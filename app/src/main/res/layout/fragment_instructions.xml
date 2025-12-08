@@ -1,36 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvInstructionsTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="@string/how_to_play_text"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- BACK BUTTON -->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp" />
+    <TextView
+        android:id="@+id/tvInstructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="6dp"
+        android:paddingTop="16dp"
+        android:text="@string/instructions_text"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInstructionsTitle" />
 
-        <!-- INSTRUCTIONS CONTENT -->
-        <TextView
-            android:id="@+id/tvInstructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="HOW TO PLAY\n\n1. Each player places their ships...\n2. Players take turns selecting coordinates...\n3. Hits and misses are shown...\n4. First to sink all ships wins!"
-            android:textSize="18sp"
-            android:paddingTop="16dp"
-            android:lineSpacingExtra="6dp" />
+    <TextView
+        android:id="@+id/shipLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="6dp"
+        android:paddingTop="16dp"
+        android:text="@string/ship_label_text"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvInstructions" />
 
+    <ImageView
+        android:id="@+id/shipTypesImage"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="180dp"
+        android:contentDescription="@string/ship_types_desc_text"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shipLabel"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/ship_types"
+        tools:srcCompat="@drawable/ship_types" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="240dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="104dp"
+        android:backgroundTint="@color/pass_device_btn_color"
+        android:letterSpacing="0.05"
+        android:text="@string/return_to_menu_text"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="TextContrastCheck" />
 
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

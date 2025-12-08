@@ -31,11 +31,13 @@
         <item quantity="other">and %d misses.</item>
     </plurals>
     <string name="return_to_menu_text">Return to Menu</string>
-    <string name="scroll_label_text">Previous games (oldest to newest):</string>
+    <string name="scroll_label_text">Game history (oldest to newest):</string>
     <string name="game_history_text">Game History\n(Oldest to Newest)</string>
     <string name="no_prev_game_text">No previous games found.</string>
-
-
+    <string name="instructions_text">1. Each player places their ships...\n2. Players take turns selecting coordinates...\n3. Hits and misses are shown...\n4. First to sink all ships wins!</string>
+    <string name="ship_types_desc_text">The different ship types in the game.</string>
+    <string name="how_to_play_text">HOW TO PLAY</string>
+    <string name="ship_label_text">There are five ship types as shown below.</string>
 
 
 </resources>
