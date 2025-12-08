@@ -21,7 +21,7 @@
         android:layout_marginTop="76dp"
         android:fontFamily="@font/russo_one"
         android:gravity="center"
-        android:text="BATTLESHIP"
+        android:text="@string/battleship_text"
         android:textColor="#212121"
         android:textSize="61sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,12 +36,13 @@
         android:layout_marginTop="76dp"
         android:backgroundTint="@color/main_menu_buttons"
         android:letterSpacing="0.05"
-        android:text="Start Game"
+        android:text="@string/start_game_text"
         android:textColor="@color/white"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_battleship" />
+        app:layout_constraintTop_toBottomOf="@+id/image_battleship"
+        tools:ignore="TextContrastCheck" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStats"
@@ -50,12 +51,13 @@
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/main_menu_buttons"
         android:letterSpacing="0.05"
-        android:text="View Stats"
+        android:text="@string/view_stats_text"
         android:textColor="@color/white"
         app:cornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnStartGame" />
+        app:layout_constraintTop_toBottomOf="@+id/btnStartGame"
+        tools:ignore="TextContrastCheck" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnInstructions"
@@ -64,20 +66,22 @@
         android:layout_marginTop="24dp"
         android:backgroundTint="@color/main_menu_buttons"
         android:letterSpacing="0.05"
-        android:text="Instructions"
+        android:text="@string/instructions_label_text"
         android:textColor="@color/white"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnStats"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
     <ImageView
         android:id="@+id/image_battleship"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="108dp"
+        android:contentDescription="@string/ship_image_desc"
         android:src="@drawable/ship"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
