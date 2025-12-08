@@ -69,6 +69,18 @@ class GameplayFragment : Fragment() {
         // initialize the tiles
         tileButtons = Array(10) { arrayOfNulls<ImageView>(10) }
 
+        val displayMetrics = resources.displayMetrics
+        val screenWidth = displayMetrics.widthPixels
+
+        val parentPadding = (32 * displayMetrics.density).toInt()
+
+        val margin = (2 * displayMetrics.density).toInt()
+        val totalMarginSpace = (size * 2 * margin)
+
+        val availableSpace = screenWidth - totalMarginSpace - parentPadding
+
+        val calculatedTileSize = availableSpace / size
+
         for (row in 0 until size) {
             for (col in 0 until size) {
                 // Create the tile and apply its initial appearance and behavior
@@ -76,12 +88,9 @@ class GameplayFragment : Fragment() {
                     setImageResource(R.drawable.circle)
                     scaleType = ImageView.ScaleType.CENTER_INSIDE
 
-                    val tileSize = (37.3 * resources.displayMetrics.density).toInt()
-                    val margin = (2 * resources.displayMetrics.density).toInt()
-
                     layoutParams = GridLayout.LayoutParams().apply {
-                        width = tileSize
-                        height = tileSize
+                        width = calculatedTileSize
+                        height = calculatedTileSize
                         rowSpec = GridLayout.spec(row)
                         columnSpec = GridLayout.spec(col)
                         setMargins(margin, margin, margin, margin)
