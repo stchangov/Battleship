@@ -213,6 +213,26 @@ class GameplayFragment : Fragment() {
             .start()
     }
 
+    private fun impactPulse(view: ImageView) {
+        // Make tile slightly larger and fully visible
+        view.animate()
+            .scaleX(1.15f)
+            .scaleY(1.15f)
+            .alpha(1f)     // full visibility
+            .setDuration(110)
+            .withEndAction {
+                // Return it to its normal size and faded-out look
+                view.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .alpha(0.6f)   // darker look to represent damage
+                    .setDuration(140)
+                    .start()
+            }
+            .start()
+    }
+
+
     fun loadGameBoard() {
         val currentBoard : Array<Array<CellState>> = gameViewModel.getEnemyBoard()
         val currentPlacedShip = gameViewModel.getEnemyPlacedShip()
@@ -263,12 +283,22 @@ class GameplayFragment : Fragment() {
                             }
 
                             // NORMAL HIT TILE — does not apply to fatal hit
-                            setImageResource(R.drawable.hit_icon)
-                            alpha = 1f
+                            setImageResource(R.drawable.ship_tile)
+                            if (shipIndex != null) {
+                                val shipColor = ContextCompat.getColor(
+                                    requireContext(),
+                                    currentPlacedShip[shipIndex].shipType.colorRes
+                                )
+                                setColorFilter(shipColor)
+                            }
+
+                            // Hit tile - dim it
+                            alpha = 0.50f
                             isEnabled = false
 
+                            // Animate only the tile hit this turn.
                             if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
-                                shakeTile(this)
+                                impactPulse(this)
                             }
                         }
                     }

@@ -36,11 +36,13 @@ class ShipPlacementFragment : Fragment() {
         }
 
         binding.btnUndo.setOnClickListener {
+            softPop(it)
             gameViewModel.resetStartSelection()
             refreshBoardUI()
         }
 
         binding.btnPassDevice.setOnClickListener {
+            softPop(it)
             handlePassDevice()
         }
 
@@ -151,7 +153,7 @@ class ShipPlacementFragment : Fragment() {
         }
     }
 
-    private fun softPop(view: ImageView) {
+    private fun softPop(view: View) {
         view.animate()
             .scaleX(1.08f)
             .scaleY(1.08f)

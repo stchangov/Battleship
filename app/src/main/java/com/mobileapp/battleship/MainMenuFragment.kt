@@ -15,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 class MainMenuFragment : Fragment() {
 
     private lateinit var binding: FragmentMainMenuBinding
+    private var _binding: FragmentMainMenuBinding? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,22 +26,46 @@ class MainMenuFragment : Fragment() {
 
         // Inflate layout using ViewBinding
         binding = FragmentMainMenuBinding.inflate(inflater, container, false)
+        val view = binding.root
+
 
         // Navigate to Ship Placement screen
         binding.btnStartGame.setOnClickListener {
+            softPopButton(it)
             findNavController().navigate(R.id.action_mainMenu_to_shipPlacement)
         }
 
         // Navigate to Stats screen
         binding.btnStats.setOnClickListener {
+            softPopButton(it)
             findNavController().navigate(R.id.action_mainMenu_to_stats)
         }
 
         // Navigate to Instructions screen
         binding.btnInstructions.setOnClickListener {
+            softPopButton(it)
             findNavController().navigate(R.id.action_mainMenu_to_instructions)
+            softPopButton(it)
         }
 
-        return binding.root
+        return view
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+    private fun softPopButton(view: View) {
+        view.scaleX = 0.92f
+        view.scaleY = 0.92f
+        view.animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .setDuration(140)
+            .start()
+    }
+
+
+
 }
