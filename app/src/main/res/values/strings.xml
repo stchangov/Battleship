@@ -31,6 +31,8 @@
     </plurals>
     <string name="return_to_menu_text">Return to Menu</string>
     <string name="scroll_label_text">Previous games (oldest to newest):</string>
+    <string name="game_history_text">Game History\n(Oldest to Newest)</string>
+    <string name="no_prev_game_text">No previous games found.</string>
 
 
 </resources>

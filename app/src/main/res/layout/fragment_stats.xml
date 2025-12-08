@@ -1,44 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/statsLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvStatsTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="44dp"
+        android:gravity="center"
+        android:text="@string/game_history_text"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Back Button -->
-        <Button
-            android:id="@+id/btnBackStats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Back"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp" />
+    <ScrollView
+        android:id="@+id/statScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBackStats"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatsTitle">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/tvStatsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Game Statistics"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Stats Text -->
-        <TextView
-            android:id="@+id/tvStatsContent"
+        <LinearLayout
+            android:id="@+id/statLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Wins: 0\nLosses: 0\nTotal Hits: 0\nTotal Misses: 0\nAccuracy: 0%"
-            android:textSize="18sp"
-            android:lineSpacingExtra="6dp" />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/statTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_prev_game_text"
+                android:textSize="13sp"/>
+        </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+    <Button
+        android:id="@+id/btnBackStats"
+        android:layout_width="240dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="104dp"
+        android:backgroundTint="@color/pass_device_btn_color"
+        android:letterSpacing="0.05"
+        android:text="@string/return_to_menu_text"
+        android:textColor="@color/white"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
