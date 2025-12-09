@@ -184,7 +184,7 @@ class GameplayFragment : Fragment() {
 
                         // Settle back to original size
                         view.animate()
-                            .alpha(1f)
+                            .alpha(0.40f)
                             .scaleX(1f)
                             .scaleY(1f)
                             .setDuration(120)
@@ -280,7 +280,7 @@ class GameplayFragment : Fragment() {
                             isEnabled = true
                             alpha = 1.0f
                             setImageResource(R.drawable.circle)
-                            setColorFilter(Color.GREEN) // TODO remove debug coloring
+//                            setColorFilter(Color.GREEN) // TODO remove debug coloring
                         }
                     }
                     CellState.HIT -> {
@@ -310,11 +310,13 @@ class GameplayFragment : Fragment() {
 
                             if (shipDestroyed) {
                                 isEnabled = false
+                                alpha = 0.30f
 
                                 // Only animate if this tile was the one actually hit this turn
                                 if (gameViewModel.lastHitPos != null &&
                                     gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
                                     animateKillTileAndSinkShip(this, currentPlacedShip[idx!!].cells)
+
                                 }
 
                                 return@apply
@@ -337,8 +339,8 @@ class GameplayFragment : Fragment() {
                     CellState.MISS -> {
                         tile?.apply {
                             isEnabled = false
-                            alpha = 0.3f
                             setImageResource(R.drawable.miss_icon)
+                            alpha = 0.40f
 
                             if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
                                 missSplash(this)
