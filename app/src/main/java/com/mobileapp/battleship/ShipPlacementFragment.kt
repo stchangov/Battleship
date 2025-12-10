@@ -50,12 +50,37 @@ class ShipPlacementFragment : Fragment() {
         val gameBoard = binding.gridGameBoard
         setupBoard(gameBoard)
 
+        refreshBoardUI()
+        redrawShips()
+        checkIfPlayerDonePlacing()
+
         return view
     }
 
     override fun onDestroy() {
+        if (!gameViewModel.isSelectingStart) {
+            gameViewModel.resetStartSelection()
+        }
+
         super.onDestroy()
         _binding = null
+    }
+
+    private fun redrawShips() {
+        val currentPlacedShip = gameViewModel.getCurrentPlacedShip()
+
+        for(ship in currentPlacedShip) {
+            val shipColorRes = ship.shipType.colorRes
+            val shipColor = ContextCompat.getColor(requireContext(), shipColorRes)
+            for(cell in ship.cells) {
+                val (row, col) = cell
+                tileButtons[row][col]?.apply {
+                    setImageResource(R.drawable.ship_tile)
+                    setColorFilter(shipColor)
+                    alpha = 1f
+                }
+            }
+        }
     }
 
     private fun setupBoard(gameBoard: GridLayout) {
@@ -371,6 +396,7 @@ class ShipPlacementFragment : Fragment() {
             return
 
         } else if (p2Done) {
+            gameViewModel.switchToPlayer1()
             findNavController().navigate(R.id.action_shipPlacement_to_gameplay)
         }
     }

@@ -35,11 +35,8 @@ class GameOverFragment : Fragment() {
         _binding = FragmentGameOverBinding.inflate(inflater,container,false)
 
         binding.backMenuButton.setOnClickListener {
-            /*TODO
-            *  Currently the game ViewModel does not get destroyed,
-            *  so as a temp solution this will clear all ViewModels.
-            *  Need to find a way to only clear the game ViewModel.
-            * */
+            viewModel.writeToFile(requireContext())
+
             activity?.viewModelStore?.clear()
             findNavController().navigate(R.id.action_gameOverFragment_to_mainMenuFragment)
         }
@@ -51,8 +48,6 @@ class GameOverFragment : Fragment() {
         binding.player1MissBox.text = res.getQuantityString(R.plurals.misses_p1_text, viewModel.args.missMadeByP1, viewModel.args.missMadeByP1)
         binding.player2HitsBox.text = res.getQuantityString(R.plurals.hits_p2_text, viewModel.args.hitsMadeByP2, viewModel.args.hitsMadeByP2)
         binding.player2MissBox.text = res.getQuantityString(R.plurals.misses_p2_text, viewModel.args.missMadeByP2, viewModel.args.missMadeByP2)
-
-        viewModel.writeToFile(requireContext())
 
         binding.textViewScrollBox.text = viewModel.readFromFile(requireContext())
 
