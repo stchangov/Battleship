@@ -334,8 +334,6 @@ class GameplayFragment : Fragment() {
                         }
                     }
 
-
-
                     CellState.MISS -> {
                         tile?.apply {
                             isEnabled = false
