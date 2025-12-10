@@ -31,7 +31,7 @@ class GameViewModel: ViewModel() {
     private val shipLocationsP1 = mutableMapOf<Pair<Int,Int>, Int>()
     private val shipLocationsP2 = mutableMapOf<Pair<Int,Int>, Int>()
 
-    private fun getCurrentPlacedShip(): MutableList<ShipStatus> {
+    fun getCurrentPlacedShip(): MutableList<ShipStatus> {
         return when (currentPlayer.value) {
             Player.PLAYER1 -> {
                 placedShipsP1
@@ -55,7 +55,7 @@ class GameViewModel: ViewModel() {
         }
     }
 
-    private fun getCurrentShipLocs():  MutableMap<Pair<Int, Int>, Int> {
+    fun getCurrentShipLocs():  MutableMap<Pair<Int, Int>, Int> {
         return when (currentPlayer.value) {
             Player.PLAYER1 -> {
                 shipLocationsP1
