@@ -3,6 +3,7 @@ package com.mobileapp.battleship
 import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import java.io.File
 import kotlin.Int
 
 class GameOverViewModel(private val fileName: String, private val savedStateHandle: SavedStateHandle) : ViewModel() {
@@ -21,6 +22,11 @@ class GameOverViewModel(private val fileName: String, private val savedStateHand
     }
 
     fun readFromFile(context: Context): String {
+        val file = File(context.filesDir, fileName)
+        if(!file.exists()) {
+            return ""
+        }
+
         return context.openFileInput(fileName).bufferedReader().use {
             it.readText()
         }
