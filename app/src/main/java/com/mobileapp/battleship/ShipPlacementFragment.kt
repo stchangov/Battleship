@@ -371,6 +371,7 @@ class ShipPlacementFragment : Fragment() {
             return
 
         } else if (p2Done) {
+            gameViewModel.switchToPlayer1()
             findNavController().navigate(R.id.action_shipPlacement_to_gameplay)
         }
     }

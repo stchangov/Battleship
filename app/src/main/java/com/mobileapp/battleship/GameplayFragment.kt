@@ -58,12 +58,27 @@ class GameplayFragment : Fragment() {
 
         setupBoard(gameBoard)
 
-        gameViewModel.switchToPlayer1()
         loadGameBoard()
+
+        // checks if there was an app state change
+        // lastHitPos is not set to null after a state change
+        if (gameViewModel.lastHitPos != null) {
+            val lastx = gameViewModel.lastHitPos!!.first
+            val lasty = gameViewModel.lastHitPos!!.second
+
+            // if the player won or missed before the state change, reveal the button again
+            if (gameViewModel.getEnemyBoard()[lastx][lasty] == CellState.MISS || gameViewModel.isGameComplete()) {
+                disableBoard()
+                binding.btnPassAfterAttack.visibility = View.VISIBLE
+                if (gameViewModel.isGameComplete()) binding.attackTextView.text =
+                    getString(R.string.congrat_text)
+            }
+        }
 
         return view
     }
 
+    // creates an empty grid
     private fun setupBoard(gameBoard: GridLayout) {
         val size = 10
         // initialize the tiles
@@ -111,6 +126,7 @@ class GameplayFragment : Fragment() {
         }
     }
 
+    // determines what happens when a tile is clicked
     private fun onTileClicked(row: Int, col: Int) {
 
         gameViewModel.registerHit(row,col)
@@ -118,6 +134,7 @@ class GameplayFragment : Fragment() {
         gameViewModel.lastHitPos = row to col
 
         loadGameBoard()
+        // checks if the player won or missed
         if (gameViewModel.getEnemyBoard()[row][col] == CellState.MISS || gameViewModel.isGameComplete()) {
             disableBoard()
             binding.btnPassAfterAttack.visibility = View.VISIBLE
@@ -125,6 +142,7 @@ class GameplayFragment : Fragment() {
         }
     }
 
+    // disables all buttons in the grid
     private fun disableBoard() {
         for (row in 0 until 10) {
             for (col in 0 until 10) {
@@ -259,7 +277,7 @@ class GameplayFragment : Fragment() {
     }
 
 
-
+    // reflects the internal state of the game to the UI
     fun loadGameBoard() {
         val currentBoard : Array<Array<CellState>> = gameViewModel.getEnemyBoard()
         val currentPlacedShip = gameViewModel.getEnemyPlacedShip()
@@ -352,6 +370,7 @@ class GameplayFragment : Fragment() {
         }
     }
 
+    // checks if the game is over and allows the player to end their turn
     private fun handlePassDevice() {
 
         if (!gameViewModel.isGameComplete()) {
