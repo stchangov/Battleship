@@ -298,7 +298,7 @@ class GameplayFragment : Fragment() {
                             isEnabled = true
                             alpha = 1.0f
                             setImageResource(R.drawable.circle)
-//                            setColorFilter(Color.GREEN) // TODO remove debug coloring
+//                            setColorFilter(Color.GREEN)
                         }
                     }
                     CellState.HIT -> {

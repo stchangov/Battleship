@@ -115,13 +115,6 @@ class GameViewModel: ViewModel() {
         _currentPlayer.value = Player.PLAYER2
     }
 
-    // keep track of ships left to place
-    // TODO unused variables
-    private var battleshipPlaced = false
-    private var cruiserPlaced = false
-    private var submarinePlaced = false
-    private var destroyerPlaced = false
-
     // Keep track if we are placing the first tile for the ship
     // -1 means "not selected yet" -> -1 is an invalid coordinate
     var isSelectingStart = true
