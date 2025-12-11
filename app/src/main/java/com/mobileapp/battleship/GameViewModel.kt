@@ -266,6 +266,7 @@ class GameViewModel: ViewModel() {
         return if (totalHealthP1 <= 0) Player.PLAYER2 else Player.PLAYER1
     }
 
+    // Gets the total health of all available ships
     private fun calculateTotalHealth(): Int {
         var totalHealth = 0
         for (ship in Ship.entries) {
@@ -286,6 +287,7 @@ class GameViewModel: ViewModel() {
         }
     }
 
+    // calculate number of hits and misses made by player 1
     fun hitsMadeByP1(): Pair<Int, Int> {
         var hits = 0
         var misses = 0
@@ -302,6 +304,7 @@ class GameViewModel: ViewModel() {
         return Pair(hits, misses)
     }
 
+    // calculate number of hits and misses made by player 2
     fun hitsMadeByP2(): Pair<Int, Int> {
         var hits = 0
         var misses = 0
