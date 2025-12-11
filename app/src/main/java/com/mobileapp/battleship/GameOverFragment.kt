@@ -43,12 +43,14 @@ class GameOverFragment : Fragment() {
 
         val res = resources
 
+        // displays winners, misses, and hits
         binding.playerWinTextBox.text = getString(R.string.who_won_text, viewModel.getWinner())
         binding.player1HitsBox.text = res.getQuantityString(R.plurals.hits_p1_text, viewModel.args.hitsMadeByP1, viewModel.args.hitsMadeByP1)
         binding.player1MissBox.text = res.getQuantityString(R.plurals.misses_p1_text, viewModel.args.missMadeByP1, viewModel.args.missMadeByP1)
         binding.player2HitsBox.text = res.getQuantityString(R.plurals.hits_p2_text, viewModel.args.hitsMadeByP2, viewModel.args.hitsMadeByP2)
         binding.player2MissBox.text = res.getQuantityString(R.plurals.misses_p2_text, viewModel.args.missMadeByP2, viewModel.args.missMadeByP2)
 
+        // display history of winners, misses, and hits
         binding.textViewScrollBox.text = viewModel.readFromFile(requireContext())
 
         return binding.root

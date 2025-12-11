@@ -13,6 +13,7 @@ class GameOverViewModel(private val fileName: String, private val savedStateHand
         return if (args.winner == Player.PLAYER1) 1 else 2
     }
 
+    // creates a file if it does not exist, otherwise write to existing one
     fun writeToFile(context: Context) {
         context.openFileOutput(fileName, Context.MODE_APPEND).use { outputStream ->
             outputStream.write(("P${getWinner()} Won | P1 hits: ${args.hitsMadeByP1} | P1 misses: ${args.missMadeByP1} " +
@@ -21,6 +22,7 @@ class GameOverViewModel(private val fileName: String, private val savedStateHand
         }
     }
 
+    // get string of the file content, otherwise return an empty string if it does not exist
     fun readFromFile(context: Context): String {
         val file = File(context.filesDir, fileName)
         if(!file.exists()) {
