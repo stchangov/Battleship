@@ -1,7 +1,5 @@
-# Battleship (Android)
-
 ## Ship Placement
-PASTE_SHIP_PLACEMENT_VIDEO_URL_HERE
+https://github.com/user-attachments/assets/7f026aef-e70c-450a-b997-4f9672995de3
 
 ## Gameplay
-PASTE_GAMEPLAY_VIDEO_URL_HERE
+https://github.com/user-attachments/assets/a3eed032-d73b-4597-9cad-79aa2602196b
