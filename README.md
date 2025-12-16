@@ -7,8 +7,8 @@ A two-player Battleship game built for Android, designed for local play on a sin
 ## Screenshots
 
 <p align="center">
-  <img src="media/main_menu.png" width="250" style="margin-right: 30px;" />
-  <img src="media/result_screen.png" width="250" style="margin-left: 30px;" />
+  <img src="media/main_menu.png" width="250" style="margin-right: 80px;" />
+  <img src="media/result_screen.png" width="250" style="margin-left: 80px;" />
 </p>
 
 ---
