@@ -4,11 +4,12 @@ A two-player Battleship game built for Android, designed for local play on a sin
 
 ---
 
-## Screenshots
+## Game Flow
 
 <p align="center">
-  <img src="media/main_menu.png" width="250" style="margin-right: 80px;" />
-  <img src="media/result_screen.png" width="250" style="margin-left: 80px;" />
+  <img src="media/main_menu.png" width="250" />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="media/result_screen.png" width="250" />
 </p>
 
 ---
@@ -27,8 +28,6 @@ https://github.com/user-attachments/assets/7f026aef-e70c-450a-b997-4f9672995de3
 Once both players have placed their ships, the game switches to turn-based play.  
 Players take turns firing shots, with hits and misses clearly indicated on the board.
 
-> This is a local two-player game played on a single device, with players passing the device between turns.
-
 https://github.com/user-attachments/assets/a3eed032-d73b-4597-9cad-79aa2602196b
 
 ---
@@ -39,11 +38,3 @@ https://github.com/user-attachments/assets/a3eed032-d73b-4597-9cad-79aa2602196b
 - Interactive ship placement with rotation
 - Turn-based firing system
 - Visual indicators for hits and misses
-
----
-
-## Tech Stack
-
-- **Language:** Kotlin  
-- **Platform:** Android  
-- **Tools:** Android Studio, Emulator (AVD)
