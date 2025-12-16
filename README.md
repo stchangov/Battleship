@@ -4,7 +4,7 @@ A two-player Battleship game built for Android, designed for local play on a sin
 
 ---
 
-## Game Screens  
+## Game Screens
 
 <p align="center">
   <img src="media/main_menu.png" width="250" />
