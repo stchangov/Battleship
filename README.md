@@ -28,7 +28,7 @@ https://github.com/user-attachments/assets/d8f671fd-db8b-4be9-8c90-8a7f1b244a77
 Once both players have placed their ships, the game switches to turn-based play.  
 Players take turns firing shots, with hits and misses clearly indicated on the board.
 
-[https://github.com/stchangov/Battleship/issues/2#issue-3736334412](https://github.com/user-attachments/assets/b69b1c5e-3686-43d0-8130-b590f6e6d737)
+https://github.com/stchangov/Battleship/issues/2#issue-3736334412
 
 ---
 
