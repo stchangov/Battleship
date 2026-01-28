@@ -1,14 +1,10 @@
 package com.mobileapp.battleship
 
-import android.app.GameState
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import android.widget.GridLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
@@ -16,14 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.mobileapp.battleship.databinding.FragmentGameplayBinding
-import com.mobileapp.battleship.databinding.FragmentShipPlacementBinding
-import kotlin.getValue
 
 /**
  * Gameplay attack phase screen.
- * Players will tap a grid to attack — for now this is only a visual layout.
- *
- * MISS = lower alpha + disable clicking (same pattern as disableInvalidEndTiles() in ShipPlacementFragment)
+ * Players will tap a grid to attack.
  */
 class GameplayFragment : Fragment() {
 
@@ -61,12 +53,10 @@ class GameplayFragment : Fragment() {
         loadGameBoard()
 
         // checks if there was an app state change
-        // lastHitPos is not set to null after a state change
         if (gameViewModel.lastHitPos != null) {
             val lastx = gameViewModel.lastHitPos!!.first
             val lasty = gameViewModel.lastHitPos!!.second
 
-            // if the player won or missed before the state change, reveal the button again
             if (gameViewModel.getEnemyBoard()[lastx][lasty] == CellState.MISS || gameViewModel.isGameComplete()) {
                 disableBoard()
                 binding.btnPassAfterAttack.visibility = View.VISIBLE
@@ -78,63 +68,45 @@ class GameplayFragment : Fragment() {
         return view
     }
 
-    // creates an empty grid
     private fun setupBoard(gameBoard: GridLayout) {
         val size = 10
-        // initialize the tiles
-        tileButtons = Array(10) { arrayOfNulls<ImageView>(10) }
+        tileButtons = Array(size) { arrayOfNulls<ImageView>(size) }
 
-        val displayMetrics = resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-
-        val parentPadding = (32 * displayMetrics.density).toInt()
-
-        val margin = (2 * displayMetrics.density).toInt()
-        val totalMarginSpace = (size * 2 * margin)
-
-        val availableSpace = screenWidth - totalMarginSpace - parentPadding
-
-        val calculatedTileSize = availableSpace / size
+        val margin = (2 * resources.displayMetrics.density).toInt()
 
         for (row in 0 until size) {
             for (col in 0 until size) {
-                // Create the tile and apply its initial appearance and behavior
                 val tile = ImageView(requireContext()).apply {
                     setImageResource(R.drawable.circle)
                     scaleType = ImageView.ScaleType.CENTER_INSIDE
 
-                    layoutParams = GridLayout.LayoutParams().apply {
-                        width = calculatedTileSize
-                        height = calculatedTileSize
-                        rowSpec = GridLayout.spec(row)
-                        columnSpec = GridLayout.spec(col)
+                    // Use Weights (1f) to let Android handle the size distribution
+                    layoutParams = GridLayout.LayoutParams(
+                        GridLayout.spec(row, 1f),
+                        GridLayout.spec(col, 1f)
+                    ).apply {
+                        width = 0
+                        height = 0
                         setMargins(margin, margin, margin, margin)
                     }
 
-                    // Attach listener
                     setOnClickListener {
                         onTileClicked(row, col)
                     }
                 }
 
-                // Store this tile
                 tileButtons[row][col] = tile
-
-                // Add the tile to the GridLayout so it becomes visible
                 gameBoard.addView(tile)
             }
         }
     }
 
-    // determines what happens when a tile is clicked
     private fun onTileClicked(row: Int, col: Int) {
-
-        gameViewModel.registerHit(row,col)
-
+        gameViewModel.registerHit(row, col)
         gameViewModel.lastHitPos = row to col
 
         loadGameBoard()
-        // checks if the player won or missed
+
         if (gameViewModel.getEnemyBoard()[row][col] == CellState.MISS || gameViewModel.isGameComplete()) {
             disableBoard()
             binding.btnPassAfterAttack.visibility = View.VISIBLE
@@ -142,7 +114,6 @@ class GameplayFragment : Fragment() {
         }
     }
 
-    // disables all buttons in the grid
     private fun disableBoard() {
         for (row in 0 until 10) {
             for (col in 0 until 10) {
@@ -153,7 +124,6 @@ class GameplayFragment : Fragment() {
         }
     }
 
-    // Colors are being reset for icons
     private fun clearColor() {
         for (row in 0 until 10) {
             for (col in 0 until 10) {
@@ -166,56 +136,33 @@ class GameplayFragment : Fragment() {
         }
     }
 
-    private fun shakeTile(view: View) {
-        view.animate()
-            .translationXBy(6f)     // smaller movement
-            .setDuration(60)
-            .withEndAction {
-                view.animate()
-                    .translationXBy(-12f)
-                    .setDuration(60)
-                    .withEndAction {
-                        view.animate()
-                            .translationXBy(6f)
-                            .setDuration(60)
-                            .start()
-                    }.start()
-            }.start()
-    }
-
     private fun missSplash(view: View) {
-        // Shrink first
         view.animate()
-            .alpha(0.6f)        // soften the tile a bit
-            .scaleX(0.9f)       // slight shrink
+            .alpha(0.6f)
+            .scaleX(0.9f)
             .scaleY(0.9f)
             .setDuration(100)
             .withEndAction {
-
-                // Phase 2 — Slightly expand
                 view.animate()
-                    .alpha(0.85f)       // back toward full
-                    .scaleX(1.1f)       // slight expansion
+                    .alpha(0.85f)
+                    .scaleX(1.1f)
                     .scaleY(1.1f)
                     .setDuration(120)
                     .withEndAction {
-
-                        // Settle back to original size
                         view.animate()
                             .alpha(0.40f)
                             .scaleX(1f)
                             .scaleY(1f)
                             .setDuration(120)
                             .start()
-
                     }.start()
             }.start()
     }
 
     private fun fadeOutTile(view: ImageView) {
         view.animate()
-            .alpha(0.35f)    // underwater look
-            .setDuration(600) // slow + dramatic
+            .alpha(0.35f)
+            .setDuration(600)
             .start()
     }
 
@@ -227,13 +174,12 @@ class GameplayFragment : Fragment() {
 
     private fun screenShake() {
         val root = binding.root
-
         root.animate()
-            .translationX(2f)   // very small nudge
+            .translationX(2f)
             .setDuration(45)
             .withEndAction {
                 root.animate()
-                    .translationX(0f)   // return to normal
+                    .translationX(0f)
                     .setDuration(45)
                     .start()
             }
@@ -241,18 +187,16 @@ class GameplayFragment : Fragment() {
     }
 
     private fun impactPulse(view: ImageView) {
-        // Make tile slightly larger and fully visible
         view.animate()
             .scaleX(1.15f)
             .scaleY(1.15f)
-            .alpha(1f)     // full visibility
+            .alpha(1f)
             .setDuration(110)
             .withEndAction {
-                // Return it to its normal size and faded-out look
                 view.animate()
                     .scaleX(1f)
                     .scaleY(1f)
-                    .alpha(0.6f)   // darker look to represent damage
+                    .alpha(0.6f)
                     .setDuration(140)
                     .start()
             }
@@ -263,21 +207,16 @@ class GameplayFragment : Fragment() {
         killTile: ImageView,
         shipCells: List<Pair<Int, Int>>
     ) {
-        // Reveal the ship color smoothly
         killTile.animate()
-            .alpha(0.8f)     // fade-in to near solid (prevent color flash)
+            .alpha(0.8f)
             .setDuration(220)
             .withEndAction {
-
                 fadeOutShipAllAtOnce(shipCells)
-
                 screenShake()
             }
             .start()
     }
 
-
-    // reflects the internal state of the game to the UI
     fun loadGameBoard() {
         val currentBoard : Array<Array<CellState>> = gameViewModel.getEnemyBoard()
         val currentPlacedShip = gameViewModel.getEnemyPlacedShip()
@@ -298,7 +237,6 @@ class GameplayFragment : Fragment() {
                             isEnabled = true
                             alpha = 1.0f
                             setImageResource(R.drawable.circle)
-//                            setColorFilter(Color.GREEN)
                         }
                     }
                     CellState.HIT -> {
@@ -308,45 +246,34 @@ class GameplayFragment : Fragment() {
                                     currentPlacedShip[shipIndex].health == 0
 
                             val idx = shipIndex
-
                             setImageResource(R.drawable.ship_tile)
 
                             if (idx != null) {
                                 val colorToShow = if (shipDestroyed) {
-                                    // Reveal actual ship color once destroyed
                                     ContextCompat.getColor(
                                         requireContext(),
                                         currentPlacedShip[idx].shipType.colorRes
                                     )
                                 } else {
-                                    // hit but not destroyed
                                     ContextCompat.getColor(requireContext(), R.color.ship_hit_neutral)
                                 }
-
                                 setColorFilter(colorToShow)
                             }
 
                             if (shipDestroyed) {
                                 isEnabled = false
                                 alpha = 0.30f
-
-                                // Only animate if this tile was the one actually hit this turn
                                 if (gameViewModel.lastHitPos != null &&
                                     gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
                                     animateKillTileAndSinkShip(this, currentPlacedShip[idx!!].cells)
-
                                 }
-
                                 return@apply
                             }
 
-                            // Normal hit
                             alpha = 0.50f
                             isEnabled = false
-
                             if (gameViewModel.lastHitPos != null &&
                                 gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
-
                                 impactPulse(this)
                             }
                         }
@@ -357,7 +284,6 @@ class GameplayFragment : Fragment() {
                             isEnabled = false
                             setImageResource(R.drawable.miss_icon)
                             alpha = 0.40f
-
                             if (gameViewModel.lastHitPos == Pair(rowIndex, colIndex)) {
                                 missSplash(this)
                             }
@@ -368,9 +294,7 @@ class GameplayFragment : Fragment() {
         }
     }
 
-    // checks if the game is over and allows the player to end their turn
     private fun handlePassDevice() {
-
         if (!gameViewModel.isGameComplete()) {
             if (gameViewModel.currentPlayer.value == Player.PLAYER1) {
                 gameViewModel.switchToPlayer2()
@@ -379,14 +303,10 @@ class GameplayFragment : Fragment() {
             }
 
             binding.btnPassAfterAttack.visibility = View.GONE
-
-            // Reset lastHitPos so no animations trigger when the new player sees the board
             gameViewModel.lastHitPos = null
-
             clearColor()
             loadGameBoard()
         } else {
-
             val statsP1 = gameViewModel.hitsMadeByP1()
             val statsP2 = gameViewModel.hitsMadeByP2()
 
@@ -397,7 +317,6 @@ class GameplayFragment : Fragment() {
                 statsP2.second,
                 gameViewModel.whoWon()
             )
-
             findNavController().navigate(action)
         }
     }

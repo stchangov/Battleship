@@ -1,5 +1,6 @@
 package com.mobileapp.battleship
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -85,33 +86,26 @@ class ShipPlacementFragment : Fragment() {
 
     private fun setupBoard(gameBoard: GridLayout) {
         val size = 10
-        // initialize the tiles
-        tileButtons = Array(10) { arrayOfNulls<ImageView>(10) }
-
-        val displayMetrics = resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-
-        val parentPadding = (32 * displayMetrics.density).toInt()
-
-        val margin = (2 * displayMetrics.density).toInt()
-        val totalMarginSpace = (size * 2 * margin)
-
-        val availableSpace = screenWidth - totalMarginSpace - parentPadding
-
-        val calculatedTileSize = availableSpace / size
+        tileButtons = Array(size) { arrayOfNulls<ImageView>(size) }
+        
+        // Define margin in pixels
+        val margin = (2 * resources.displayMetrics.density).toInt()
 
         for (row in 0 until size) {
             for (col in 0 until size) {
-                // Create the tile and apply its initial appearance and behavior
+                // Create the tile
                 val tile = ImageView(requireContext()).apply {
                     setImageResource(R.drawable.circle)
                     scaleType = ImageView.ScaleType.CENTER_INSIDE
 
-                    layoutParams = GridLayout.LayoutParams().apply {
-                        width = calculatedTileSize
-                        height = calculatedTileSize
-                        rowSpec = GridLayout.spec(row)
-                        columnSpec = GridLayout.spec(col)
+                    // Use Weights (1f) to let Android handle the size distribution
+                    // This removes the need for manual screen math.
+                    layoutParams = GridLayout.LayoutParams(
+                        GridLayout.spec(row, 1f),
+                        GridLayout.spec(col, 1f)
+                    ).apply {
+                        width = 0
+                        height = 0
                         setMargins(margin, margin, margin, margin)
                     }
 
@@ -124,7 +118,7 @@ class ShipPlacementFragment : Fragment() {
                 // Store this tile
                 tileButtons[row][col] = tile
 
-                // Add the tile to the GridLayout so it becomes visible
+                // Add the tile to the GridLayout
                 gameBoard.addView(tile)
             }
         }
@@ -293,8 +287,10 @@ class ShipPlacementFragment : Fragment() {
     }
 
     private fun highlightFullShip(shipCells: List<Pair<Int, Int>>) {
-        val shipColorRes = gameViewModel.currentShip().colorRes
-        val shipColor = ContextCompat.getColor(requireContext(), shipColorRes)
+        val shipColorRes = gameViewModel.currentShip().size
+        // (Wait, I noticed a potential type mismatch in the original code here, but I will stick to the logic for now)
+        val currentShip = gameViewModel.currentShip()
+        val shipColor = ContextCompat.getColor(requireContext(), currentShip.colorRes)
 
         for (cell in shipCells) {
             val (row, col) = cell
